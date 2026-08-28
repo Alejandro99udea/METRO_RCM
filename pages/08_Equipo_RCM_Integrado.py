@@ -227,15 +227,7 @@ with tab1:
                         unsafe_allow_html=True,
                     )
                     st.write(miembro.get("mision", ""))
-                    if st.button(
-                        "Ver perfil →",
-                        key=f"perfil_{miembro.get('id')}",
-                        width="stretch",
-                    ):
-                        st.session_state["miembro_seleccionado"] = miembro.get("id")
-                        st.session_state["ir_tab_perfil"] = True
-                        st.rerun()
-
+                    
 
 # ============================================================
 # TAB 2 — PERFIL
