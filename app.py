@@ -836,7 +836,7 @@ with col6:
             )
 
 st.write("")
-col7, col8 = st.columns(2, gap="large")
+col7, col8, col9 = st.columns(3, gap="large")
 
 with col7:
     with st.container(border=True):
@@ -905,3 +905,50 @@ for i in range(3, 6):
 
 st.divider()
 st.caption("METRO_RCM · Gestión de Activos y RCM · Universidad de Antioquia")
+
+# ------------------------------------------------------------
+# EQUIPO RCM
+# ------------------------------------------------------------
+
+with col9:
+
+    with st.container(border=True):
+
+        st.markdown("## 👥 Equipo RCM")
+
+        st.write(
+            "Integrantes del equipo, roles, perfiles, "
+            "competencias y especialidades."
+        )
+
+        if st.button(
+            "Abrir Equipo RCM →",
+            key="btn_equipo_rcm",
+            width="stretch"
+        ):
+            st.switch_page(
+                "pages/08_Equipo_RCM_Integrado.py"
+            )
+
+        mostrar_boton_informe(
+            key="btn_informe_equipo_rcm",
+            titulo="Equipo RCM",
+            subtitulo="Integrantes, roles y competencias del equipo",
+            nombre_archivo="Informe_Equipo_RCM.pdf",
+            secciones=[
+                {
+                    "titulo": "Equipo de trabajo",
+                    "datos": [
+                        ["Proyecto", "METRO_RCM"],
+                        ["Área", "Gestión de Activos y RCM"],
+                        ["Equipo", "Equipo RCM"],
+                    ],
+                },
+                {
+                    "titulo": "Roles y competencias",
+                    "datos": [
+                        ["Información", "Consultar módulo Equipo RCM"],
+                    ],
+                },
+            ],
+        )
