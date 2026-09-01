@@ -324,7 +324,24 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ============================================================
+# INFORME COMPLETO DE INVESTIGACIÓN
+# ============================================================
 
+st.markdown("### 📚 Informe completo de investigación")
+
+st.caption(
+    "Consulta el informe de investigación utilizado como base "
+    "para la construcción del contexto operacional."
+)
+
+st.link_button(
+    "📖 Abrir informe completo en Canva →",
+    "https://www.canva.com/design/DAHSxqUCCKM/zPJ8-JzQHxjnWaObShsMAg/view?utm_content=DAHSxqUCCKM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hef7e6573db",
+    width="stretch",
+)
+
+st.divider()
 # ============================================================
 # SELECTOR PRINCIPAL
 # ============================================================

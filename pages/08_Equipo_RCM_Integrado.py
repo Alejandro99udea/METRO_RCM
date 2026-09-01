@@ -149,8 +149,8 @@ st.markdown(
 st.markdown(
     """
     <div class="hero-equipo">
-        <div class="eyebrow">METRO_RCM · Gestión de Activos</div>
-        <div class="title">Equipo de Gestión de Activos</div>
+        <div class="eyebrow">METRO_RCM</div>
+        <div class="title">Equipo RCM</div>
         <div class="subtitle">
             Estructura organizacional, perfiles profesionales y diagnóstico
             de competencias del equipo RCM.
@@ -186,9 +186,9 @@ with c4:
 # ============================================================
 
 tab1, tab2, tab3 = st.tabs([
-    "🏢 Organigrama",
-    "👤 Perfil individual",
-    "📊 Competencias",
+    " Organigrama",
+    " Perfil individual",
+    " Competencias",
 ])
 
 
