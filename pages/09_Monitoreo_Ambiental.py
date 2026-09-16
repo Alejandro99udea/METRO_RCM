@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from utils.theme import aplicar_tema_udea
 import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
@@ -14,6 +15,7 @@ st.set_page_config(
     page_icon="📡",
     layout="wide",
 )
+aplicar_tema_udea(marca_agua=True)
 
 
 # ============================================================

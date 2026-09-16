@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from utils.theme import aplicar_tema_udea
 import streamlit as st
 import pandas as pd
 
@@ -16,6 +17,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+aplicar_tema_udea(marca_agua=True)
 
 
 # ============================================================
@@ -114,13 +116,8 @@ st.markdown(
     <style>
 
     .hero {
-        background: linear-gradient(
-            135deg,
-            #ffffff 0%,
-            #f4f6f8 100%
-        );
-
-        border: 1px solid #dfe3e8;
+        background: linear-gradient(135deg, #004F3D 0%, #006B54 100%);
+        border: 1px solid rgba(0,107,84,.25);
         border-radius: 20px;
 
         padding: 30px 34px;
@@ -133,13 +130,13 @@ st.markdown(
     .hero-title {
         font-size: 2.35rem;
         font-weight: 800;
-        color: #111827;
+        color: #FFFFFF;
         line-height: 1.1;
     }
 
     .hero-subtitle {
         font-size: 1.05rem;
-        color: #6b7280;
+        color: rgba(255,255,255,.82);
         margin-top: 8px;
         line-height: 1.5;
     }

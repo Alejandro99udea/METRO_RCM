@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ponderación de Criterios - METRO_RCM</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  *{box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+  body{background:#f0f2f5;min-height:100vh;margin:0;padding:18px;display:flex;flex-direction:column;align-items:center;color:#25313b}
+  .container{width:100%;max-width:940px;display:flex;flex-direction:column;gap:20px}
+  .card{background:#fff;padding:24px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+  h2,h3{margin:0;color:#1a252f;text-align:center}
+  .subtitle{color:#666;font-size:14px;text-align:center;margin:7px 0 20px}
+  .input-group{margin-bottom:18px}
+  label{font-weight:600;color:#333;display:block;margin-bottom:7px}
+  input[type=text]{width:100%;padding:12px;border:2px solid #ddd;border-radius:8px;font-size:15px;outline:none}
+  input[type=text]:focus{border-color:#3498db}
+  .budget-box{background:#ebf5fb;border:1px solid #aed6f1;padding:14px;border-radius:8px;text-align:center;margin-bottom:20px}
+  .budget-box .big{font-size:26px;font-weight:700;color:#2980b9}
+  .progress{height:9px;background:#e9ecef;border-radius:7px;overflow:hidden;margin-top:9px}
+  .progress > div{height:100%;background:#28a745;width:0%;transition:width .2s}
+  .slider-card{margin-bottom:14px;background:#fafafa;padding:12px 14px;border-radius:8px;border:1px solid #eee}
+  .slider-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:10px}
+  .slider-label{font-weight:600;color:#444;font-size:14px}
+  .badge{background:#3498db;color:white;padding:4px 10px;border-radius:12px;font-weight:700;font-size:13px;min-width:38px;text-align:center}
+  input[type=range]{width:100%;accent-color:#3498db;cursor:pointer}
+  .btn{background:#27ae60;color:white;border:none;padding:12px 20px;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;transition:.2s;width:100%}
+  .btn:hover{background:#219150}.btn:disabled{background:#9aa4aa;cursor:not-allowed}
+  .btn-secondary{background:#2980b9}.btn-secondary:hover{background:#1f618d}
+  .btn-danger{background:#e74c3c}.btn-danger:hover{background:#c0392b}
+  .status{margin-top:12px;padding:10px;border-radius:8px;font-size:13px;display:none}
+  .status.ok{display:block;background:#eaf8ef;color:#18733b}.status.warn{display:block;background:#fff6db;color:#8a6500}.status.error{display:block;background:#fdecea;color:#9b231c}
+  .summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 16px}
+  .summary-item{padding:11px 8px;border:1px solid #e7eaed;border-radius:8px;background:#fafafa;text-align:center}
+  .summary-item .name{font-size:11px;color:#555;min-height:30px}.summary-item .value{font-size:20px;font-weight:700;color:#1f6fae;margin-top:4px}
+  .table-responsive{overflow-x:auto;margin-top:12px} table{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+  th,td{padding:9px 8px;text-align:center;border-bottom:1px solid #ddd} th{background:#f8f9fa;color:#2c3e50;font-weight:700} tr:hover{background:#f1f1f1}
+  .chart-container{position:relative;height:330px;margin-top:14px}
+  .actions{display:flex;gap:10px;margin-top:16px}.actions .btn{width:auto;flex:1}
+  .note{font-size:12px;color:#6b7280;text-align:center;margin-top:8px}
+  @media(max-width:800px){.summary-grid{grid-template-columns:1fr 1fr}.actions{flex-direction:column}.actions .btn{width:100%}.chart-container{height:280px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="card">
+    <h2>Ponderación de Criterios</h2>
+    <p class="subtitle">Distribuya exactamente 100 puntos según la importancia relativa de cada criterio.</p>
+    <div class="input-group">
+      <label for="nombre">Nombre del participante:</label>
+      <input type="text" id="nombre" placeholder="Ingresa tu nombre..." autocomplete="name">
+    </div>
+    <div class="budget-box">
+      <div>Puntos disponibles:</div>
+      <div><span class="big" id="puntos-disponibles">100</span> / 100</div>
+      <div class="progress"><div id="progress-bar"></div></div>
+    </div>
+
+    <div class="slider-card"><div class="slider-header"><span class="slider-label">1. Seguridad de las personas</span><span class="badge" id="val_seguridad">0</span></div><input type="range" class="criterio-slider" id="seguridad" min="0" max="100" value="0"></div>
+    <div class="slider-card"><div class="slider-header"><span class="slider-label">2. Impacto a la operación</span><span class="badge" id="val_operacion">0</span></div><input type="range" class="criterio-slider" id="operacion" min="0" max="100" value="0"></div>
+    <div class="slider-card"><div class="slider-header"><span class="slider-label">3. Continuidad operacional</span><span class="badge" id="val_continuidad">0</span></div><input type="range" class="criterio-slider" id="continuidad" min="0" max="100" value="0"></div>
+    <div class="slider-card"><div class="slider-header"><span class="slider-label">4. Costo de reparación</span><span class="badge" id="val_costo">0</span></div><input type="range" class="criterio-slider" id="costo" min="0" max="100" value="0"></div>
+    <div class="slider-card"><div class="slider-header"><span class="slider-label">5. Impacto ambiental</span><span class="badge" id="val_ambiental">0</span></div><input type="range" class="criterio-slider" id="ambiental" min="0" max="100" value="0"></div>
+
+    <button class="btn" id="btn-guardar">Registrar Mi Respuesta</button>
+    <div id="sync-status" class="status"></div>
+    <div class="note">La respuesta se registra en el sistema central y se muestra al equipo en los dispositivos conectados.</div>
+  </div>
+
+  <div class="card">
+    <h3>Promedio General del Equipo</h3>
+    <p class="subtitle">Importancia relativa basada en todas las respuestas registradas</p>
+    <div class="summary-grid" id="resumen-equipo"></div>
+    <div class="chart-container"><canvas id="graficoEquipo"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h3>Respuestas del Equipo</h3>
+    <p class="subtitle" id="contador-votos">0 respuestas registradas</p>
+    <div class="table-responsive">
+      <table><thead><tr><th>#</th><th>Nombre</th><th>Seguridad</th><th>Imp. Operación</th><th>Cont. Operacional</th><th>Costo Reparación</th><th>Imp. Ambiental</th></tr></thead><tbody id="tabla-cuerpo"></tbody></table>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" id="btn-csv">Exportar a Excel (CSV)</button>
+      <button class="btn btn-secondary" id="btn-refrescar">Actualizar resultados</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const REMOTE_ENDPOINT = "__VOTACION_ENDPOINT__".trim();
+const MODO_REMOTO = REMOTE_ENDPOINT.startsWith('http');
+const CRITERIOS = [
+  {id:'seguridad', label:'Seguridad de las personas'},
+  {id:'operacion', label:'Impacto a la operación'},
+  {id:'continuidad', label:'Continuidad operacional'},
+  {id:'costo', label:'Costo de reparación'},
+  {id:'ambiental', label:'Impacto ambiental'}
+];
+const SEED_RESPUESTAS = [
+  {id:'seed-1',nombre:'Sebastian Osorio Medina',seguridad:40,operacion:15,continuidad:25,costo:5,ambiental:15,fecha:'Datos iniciales'},
+  {id:'seed-2',nombre:'Hernan Inchima',seguridad:40,operacion:25,continuidad:20,costo:5,ambiental:10,fecha:'Datos iniciales'},
+  {id:'seed-3',nombre:'nikoll e',seguridad:25,operacion:27,continuidad:22,costo:15,ambiental:11,fecha:'Datos iniciales'},
+  {id:'seed-4',nombre:'Felix anaya',seguridad:47,operacion:9,continuidad:22,costo:13,ambiental:9,fecha:'Datos iniciales'},
+  {id:'seed-5',nombre:'Ivan Baron',seguridad:40,operacion:15,continuidad:30,costo:10,ambiental:5,fecha:'Datos iniciales'}
+];
+let registros = [...SEED_RESPUESTAS];
+let miGrafico = null;
+
+function setSyncStatus(text, type='') {
+  const el=document.getElementById('sync-status'); el.textContent=text; el.className='status '+type;
+}
+
+function actualizarPuntos(cambiado){
+  const sliders=[...document.querySelectorAll('.criterio-slider')];
+  const otros=sliders.filter(s=>s!==cambiado).reduce((t,s)=>t+Number(s.value||0),0);
+  const maxPermitido=Math.max(0,100-otros);
+  if(cambiado && Number(cambiado.value)>maxPermitido) cambiado.value=String(maxPermitido);
+  let total=sliders.reduce((t,s)=>t+Number(s.value||0),0);
+  sliders.forEach(s=>document.getElementById('val_'+s.id).textContent=s.value);
+  document.getElementById('puntos-disponibles').textContent=100-total;
+  document.getElementById('progress-bar').style.width=Math.min(100,total)+'%';
+  document.getElementById('btn-guardar').disabled=(total!==100);
+}
+
+document.querySelectorAll('.criterio-slider').forEach(s=>s.addEventListener('input',()=>actualizarPuntos(s)));
+actualizarPuntos(null);
+
+function escapeHtml(text){return String(text).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+
+function normalizarRegistro(r,i){
+  return {id:r.id ?? i+1,nombre:String(r.nombre||r.evaluador||''),fecha:String(r.fecha||''),seguridad:Number(r.seguridad??r.votos?.[0]??0),operacion:Number(r.operacion??r.votos?.[1]??0),continuidad:Number(r.continuidad??r.votos?.[2]??0),costo:Number(r.costo??r.votos?.[3]??0),ambiental:Number(r.ambiental??r.votos?.[4]??0)};
+}
+
+function resumen(){
+  const total=registros.length;
+  const claves=['seguridad','operacion','continuidad','costo','ambiental'];
+  const proms=total?claves.map(k=>registros.reduce((s,r)=>s+Number(r[k]||0),0)/total):[0,0,0,0,0];
+  return {total,proms};
+}
+
+function renderizarVista(){
+  const {total,proms}=resumen();
+  document.getElementById('contador-votos').textContent=`${total} respuestas registradas`;
+  const nombres=['Seguridad','Imp. Operación','Cont. Operacional','Costo Reparación','Imp. Ambiental'];
+  document.getElementById('resumen-equipo').innerHTML=proms.map((v,i)=>`<div class="summary-item"><div class="name">${nombres[i]}</div><div class="value">${v.toFixed(1)}</div></div>`).join('');
+  const tbody=document.getElementById('tabla-cuerpo'); tbody.innerHTML='';
+  registros.forEach((r,i)=>{ const tr=document.createElement('tr'); tr.innerHTML=`<td>${i+1}</td><td><strong>${escapeHtml(r.nombre)}</strong></td><td>${r.seguridad} pts</td><td>${r.operacion} pts</td><td>${r.continuidad} pts</td><td>${r.costo} pts</td><td>${r.ambiental} pts</td>`; tbody.appendChild(tr); });
+  actualizarGrafico(proms);
+}
+
+function inicializarGrafico(){
+  const ctx=document.getElementById('graficoEquipo').getContext('2d');
+  miGrafico=new Chart(ctx,{type:'bar',data:{labels:['Seguridad de personas','Impacto a la operación','Continuidad operacional','Costo de reparación','Impacto ambiental'],datasets:[{label:'Promedio de Puntos del Equipo',data:[0,0,0,0,0],backgroundColor:['rgba(231,76,60,.7)','rgba(230,126,34,.7)','rgba(241,196,15,.7)','rgba(52,152,219,.7)','rgba(46,204,113,.7)'],borderColor:['#c0392b','#d35400','#f39c12','#2980b9','#27ae60'],borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:true,max:100,title:{display:true,text:'Promedio (Puntos)'}}},plugins:{legend:{display:false}}}});
+}
+function actualizarGrafico(proms){if(miGrafico){miGrafico.data.datasets[0].data=proms;miGrafico.update();}}
+
+function cargarDatosRemotos(){
+  if(!MODO_REMOTO){setSyncStatus('Modo local: los datos no se comparten entre dispositivos.','warn');renderizarVista();return;}
+  const cb='cb_'+Date.now()+'_'+Math.floor(Math.random()*10000); window[cb]=function(data){try{if(!data||!data.ok)throw new Error(data?.error||'Respuesta inválida'); if(Array.isArray(data.registros)){registros=data.registros.map(normalizarRegistro); if(!registros.length) registros=[...SEED_RESPUESTAS];} renderizarVista(); setSyncStatus('✓ Datos sincronizados con el registro central.','ok');}catch(err){setSyncStatus('No se pudieron leer los resultados centrales: '+err.message,'error');}finally{delete window[cb];const el=document.getElementById(cb);if(el)el.remove();}};
+  const script=document.createElement('script');script.id=cb;script.src=`${REMOTE_ENDPOINT}?action=list&callback=${cb}&t=${Date.now()}`;script.onerror=()=>{setSyncStatus('No fue posible conectar con el registro central.','error');delete window[cb];script.remove();};document.body.appendChild(script);
+}
+
+function enviarRegistroRemoto(r){
+  return new Promise(resolve=>{
+    const target='voto_'+Date.now()+'_'+Math.floor(Math.random()*9999); const iframe=document.createElement('iframe'); iframe.name=target; iframe.style.display='none'; document.body.appendChild(iframe);
+    const form=document.createElement('form'); form.method='GET'; form.action=REMOTE_ENDPOINT; form.target=target; form.style.display='none';
+    const fields={action:'add',nombre:r.nombre,fecha:r.fecha,votos:JSON.stringify([r.seguridad,r.operacion,r.continuidad,r.costo,r.ambiental]),t:String(Date.now())};
+    Object.entries(fields).forEach(([k,v])=>{const inp=document.createElement('input');inp.type='hidden';inp.name=k;inp.value=v;form.appendChild(inp);});
+    document.body.appendChild(form); form.submit();
+    setTimeout(()=>{form.remove();iframe.remove();resolve(true);},2200);
+  });
+}
+
+document.getElementById('btn-guardar').addEventListener('click',async()=>{
+  const nombre=document.getElementById('nombre').value.trim();
+  const vals=Object.fromEntries(CRITERIOS.map(c=>[c.id,Number(document.getElementById(c.id).value||0)]));
+  const total=Object.values(vals).reduce((a,b)=>a+b,0);
+  if(!nombre){alert('Por favor, ingresa tu nombre.');return;}
+  if(total!==100){alert('Debes distribuir exactamente 100 puntos antes de registrar la respuesta.');return;}
+  const registro={nombre,fecha:new Date().toLocaleString('es-CO'),...vals};
+  const btn=document.getElementById('btn-guardar'); btn.disabled=true; btn.textContent='Registrando…';
+  if(MODO_REMOTO){setSyncStatus('Enviando respuesta al registro central…',''); await enviarRegistroRemoto(registro); await new Promise(r=>setTimeout(r,1600)); cargarDatosRemotos(); alert(`¡Respuesta de ${nombre} registrada correctamente!`);} else {registros.push({...registro,id:'local-'+Date.now()});renderizarVista();setSyncStatus('Modo local. Configura VOTACION_ENDPOINT para compartir.','warn');alert(`¡Respuesta de ${nombre} registrada!`);}
+  document.getElementById('nombre').value=''; document.querySelectorAll('.criterio-slider').forEach(s=>s.value=0); actualizarPuntos(null); btn.textContent='Registrar Mi Respuesta';
+});
+
+document.getElementById('btn-refrescar').addEventListener('click',cargarDatosRemotos);
+document.getElementById('btn-csv').addEventListener('click',()=>{const header=['Nombre','Seguridad','Impacto Operacion','Continuidad Operacional','Costo Reparacion','Impacto Ambiental'];let csv=header.join(',')+'\n';registros.forEach(r=>{csv+=`"${r.nombre.replace(/"/g,'""')}",${r.seguridad},${r.operacion},${r.continuidad},${r.costo},${r.ambiental}\n`;});const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ponderacion_criterios.csv';a.click();URL.revokeObjectURL(a.href);});
+
+inicializarGrafico(); renderizarVista(); cargarDatosRemotos(); setInterval(cargarDatosRemotos,5000);
+</script>
+</body>
+</html>

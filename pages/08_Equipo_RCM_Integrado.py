@@ -1,22 +1,26 @@
 # -*- coding: utf-8 -*-
 
+
+from utils.theme import aplicar_tema_udea
 from pathlib import Path
 import json
 import math
-
 import pandas as pd
-import streamlit as st
+import streamlit as st 
 
 
 # ============================================================
 # CONFIGURACIÓN
 # ============================================================
 
-st.set_page_config(
+st.set_page_config (
     page_title="Equipo RCM | METRO_RCM",
     page_icon="👥",
     layout="wide",
+
 )
+
+aplicar_tema_udea(marca_agua=True)
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_FILE = BASE_DIR / "data" / "equipo_rcm.json"

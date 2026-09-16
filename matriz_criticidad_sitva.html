@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matriz de Criticidad — SITVA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --bg:#F4F6F8;
+  --panel:#FFFFFF;
+  --panel-2:#E9EEF1;
+  --border:#D7DEE3;
+  --text:#1A2020;
+  --text-dim:#57666B;
+  --text-faint:#8A979C;
+  --accent:#D97706;
+  --accent-green:#008037;
+
+  --z-baja:#008037;
+  --z-media:#E8B93B;
+  --z-alta:#D97706;
+  --z-muyalta:#C0272D;
+
+  --m-metro:#2E6BE0;
+  --m-cable:#D97706;
+  --m-plus:#C0272D;
+  --m-tranvia:#8A4FC2;
+  --m-alim:#5B6E76;
+  --m-trans:#008037;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:36px 24px 80px;}
+
+/* ---------- HERO / RAIL ---------- */
+.hero{margin-bottom:34px;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:clamp(28px,4vw,40px);
+  margin:0 0 8px;letter-spacing:-.01em;
+}
+.subtitle{color:var(--text-dim);font-size:14.5px;max-width:640px;line-height:1.6;margin:0 0 26px;}
+
+.rail{
+  position:relative;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 6px 10px;
+}
+.rail::before{
+  content:"";position:absolute;left:18px;right:18px;top:34px;height:3px;
+  background:linear-gradient(90deg,var(--m-metro),var(--m-cable),var(--m-plus),var(--m-tranvia),var(--m-alim),var(--m-trans));
+  border-radius:3px;opacity:.55;
+}
+.station{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  background:none;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;color:var(--text-dim);
+  padding:0;flex:1;min-width:0;
+}
+.station .dot{
+  width:15px;height:15px;border-radius:50%;
+  border:3px solid var(--bg);box-shadow:0 0 0 2px currentColor;
+  transition:transform .15s ease;
+}
+.station:hover .dot{transform:scale(1.25);}
+.station.active .dot{transform:scale(1.35);}
+.station .label{
+  font-size:10.5px;line-height:1.25;text-align:center;max-width:92px;
+  color:var(--text-dim);font-weight:500;
+}
+.station.active .label{color:var(--text);font-weight:700;}
+.station.active{color:inherit;}
+.station-count{
+  font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--text-faint);
+}
+
+/* ---------- LAYOUT GRID ---------- */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+@media(max-width:820px){.grid2{grid-template-columns:1fr;}}
+
+.panel{
+  background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:22px;
+}
+.panel h2{
+  font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;
+  margin:0 0 4px;
+}
+.panel .desc{color:var(--text-dim);font-size:12.5px;margin:0 0 18px;line-height:1.5;}
+
+/* ---------- SLIDERS ---------- */
+.criterio{margin-bottom:16px;}
+.criterio:last-child{margin-bottom:0;}
+.criterio-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.criterio-name{font-size:13px;font-weight:500;}
+.criterio-val{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent);font-weight:600;}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:4px;border-radius:2px;
+  background:var(--border);outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:3px solid var(--panel);
+  box-shadow:0 0 0 1px var(--accent);
+}
+input[type=range]::-moz-range-thumb{
+  width:15px;height:15px;border-radius:50%;background:var(--accent);
+  cursor:pointer;border:3px solid var(--panel);box-shadow:0 0 0 1px var(--accent);
+}
+.weight-total{
+  margin-top:16px;padding-top:14px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--text-dim);
+}
+.weight-total .n{font-family:'IBM Plex Mono',monospace;color:var(--text);font-weight:600;}
+.weight-note{font-size:11px;color:var(--text-faint);margin-top:6px;line-height:1.5;}
+
+.reset-btn{
+  margin-top:14px;width:100%;padding:9px;border-radius:7px;border:1px solid var(--border);
+  background:var(--panel-2);color:var(--text-dim);font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:600;cursor:pointer;transition:.15s;
+}
+.reset-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ---------- ZONE SUMMARY ---------- */
+.zones{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.zone-card{
+  border-radius:9px;padding:13px 12px;background:var(--panel-2);
+  border:1px solid var(--border);border-left:3px solid var(--zc);
+}
+.zone-card .zn{font-size:11px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+.zone-card .zc{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;color:var(--zc);margin-top:2px;}
+.zone-card .zp{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--text-faint);margin-top:2px;}
+
+/* ---------- SCATTER / HEATMAP ---------- */
+.heatmap-head{display:flex;justify-content:space-between;align-items:baseline;}
+.axis-corner-label{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+  color:var(--text-faint);white-space:nowrap;
+}
+.scatter-wrap{position:relative;}
+svg.scatter{width:100%;height:auto;display:block;overflow:visible;}
+.grid-line{stroke:rgba(255,255,255,0.12);stroke-width:1;}
+.cell-bg{stroke:var(--panel);stroke-width:1.5;}
+.axis-label{font-family:'IBM Plex Mono',monospace;font-size:10px;fill:var(--text-faint);}
+.axis-title{font-family:'Inter',sans-serif;font-size:11px;fill:var(--text-dim);font-weight:500;}
+.pt{cursor:pointer;transition:r .12s ease;stroke:var(--bg);stroke-width:1.5;}
+.pt:hover{stroke:var(--text);stroke-width:2;}
+.pt-tooltip{
+  position:absolute;pointer-events:none;background:#1A2020;border:1px solid rgba(255,255,255,0.14);
+  border-radius:8px;padding:9px 12px;font-size:12px;max-width:230px;line-height:1.5;color:#F4F6F8;
+  box-shadow:0 8px 24px rgba(0,0,0,.28);opacity:0;transition:opacity .1s;z-index:10;
+}
+.pt-tooltip b{display:block;font-family:'Space Grotesk',sans-serif;font-size:12.5px;margin-bottom:3px;color:#F4F6F8;}
+.pt-tooltip .tt-idx{font-family:'IBM Plex Mono',monospace;color:#F2A65A;}
+
+/* ---------- RANKING ---------- */
+.ranking{margin-bottom:18px;}
+.rank-row{
+  display:grid;grid-template-columns:28px 1fr 70px 90px;gap:12px;align-items:center;
+  padding:9px 4px;border-bottom:1px solid var(--border);font-size:12.5px;
+}
+.rank-row:last-child{border-bottom:none;}
+.rank-row .rn{font-family:'IBM Plex Mono',monospace;color:var(--text-faint);font-size:11px;}
+.rank-row .ra{font-weight:500;}
+.rank-row .ra .rm{display:block;font-size:10.5px;color:var(--text-faint);margin-top:1px;}
+.rank-row .ri{font-family:'IBM Plex Mono',monospace;text-align:right;font-weight:600;}
+.rank-bar-track{height:6px;background:var(--panel-2);border-radius:3px;overflow:hidden;}
+.rank-bar{height:100%;border-radius:3px;}
+
+/* ---------- TABLE ---------- */
+.table-panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:22px;margin-top:18px;}
+.table-head-row{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px;flex-wrap:wrap;}
+.legend-chip{
+  display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--text-dim);
+  font-family:'IBM Plex Mono',monospace;
+}
+.legend-chip .sw{width:10px;height:10px;border-radius:3px;}
+.legend-row{display:flex;gap:16px;flex-wrap:wrap;}
+
+.table-scroll{overflow-x:auto;border-radius:8px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:1020px;}
+thead th{
+  text-align:left;font-family:'Inter',sans-serif;font-weight:600;font-size:10.5px;
+  text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);
+  background:var(--panel-2);padding:10px 10px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;white-space:nowrap;
+}
+tbody td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tbody tr:hover{background:rgba(217,119,6,0.05);}
+tbody tr:last-child td{border-bottom:none;}
+.cell-activo{font-weight:500;min-width:190px;}
+.cell-activo .cf{display:block;font-size:10.5px;color:var(--text-faint);font-weight:400;margin-top:2px;max-width:260px;white-space:normal;}
+.cell-modo{color:var(--text-dim);font-size:11.5px;white-space:normal;max-width:120px;}
+
+.num-input{
+  width:38px;text-align:center;background:var(--panel-2);border:1px solid var(--border);
+  border-radius:5px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:12px;
+  padding:4px 2px;
+}
+.num-input:focus{outline:none;border-color:var(--accent);}
+.num-input.prob{background:rgba(217,119,6,0.09);border-color:rgba(217,119,6,0.35);}
+
+.mono{font-family:'IBM Plex Mono',monospace;}
+.idx-cell{font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.zona-badge{
+  display:inline-block;padding:3px 9px;border-radius:20px;font-size:10.5px;font-weight:700;
+  font-family:'Inter',sans-serif;white-space:nowrap;
+}
+
+select, .filter-select{
+  background:var(--panel-2);border:1px solid var(--border);color:var(--text);
+  border-radius:7px;padding:8px 10px;font-family:'Inter',sans-serif;font-size:12.5px;cursor:pointer;
+}
+
+.footnote{margin-top:26px;font-size:11.5px;color:var(--text-faint);line-height:1.7;border-top:1px solid var(--border);padding-top:16px;}
+.footnote b{color:var(--text-dim);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">SITVA · METRO DE MEDELLÍN — agosto 2026</div>
+    <h1>Matriz de Criticidad de Activos</h1>
+    <p class="subtitle">Metro (líneas A y B), Metrocable, Metroplus, Tranvía y buses alimentadores. Ajusta los pesos y la probabilidad de falla de cada activo — el mapa, el ranking y la tabla se recalculan al instante.</p>
+
+    <div class="rail" id="rail"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>Pesos de los criterios de consecuencia</h2>
+      <p class="desc">Consecuencia ponderada = Σ (peso × puntaje) de estos 5 criterios, en escala 1–5. Los pesos se normalizan automáticamente para sumar 100%.</p>
+      <div id="sliders"></div>
+      <div class="weight-total">
+        <span>Suma de pesos</span>
+        <span class="n" id="weightSum">100%</span>
+      </div>
+      <div class="weight-note">Índice de criticidad = Consecuencia ponderada × Probabilidad de falla (rango 1–25).</div>
+      <button class="reset-btn" id="resetBtn">Restablecer pesos originales</button>
+    </div>
+
+    <div class="panel">
+      <h2>Resumen por zona</h2>
+      <p class="desc">Distribución de los <span id="totalCount">48</span> activos visibles según su zona de criticidad actual.</p>
+      <div class="zones" id="zones"></div>
+      <div class="heatmap-head">
+        <h2 style="margin-top:22px;">Mapa de calor</h2>
+        <span class="axis-corner-label">PROB. × CONSEC.</span>
+      </div>
+      <div class="scatter-wrap">
+        <svg class="scatter" id="scatter" viewBox="0 0 460 320"></svg>
+        <div class="pt-tooltip" id="tooltip"></div>
+      </div>
+      <p class="desc" style="margin-top:10px;margin-bottom:0;">El fondo usa una matriz de referencia fija (estándar de riesgo); el color de cada punto refleja la criticidad calculada con los pesos de arriba.</p>
+    </div>
+  </div>
+
+  <div class="panel ranking">
+    <div class="table-head-row">
+      <div>
+        <h2 style="margin-bottom:2px;">Ranking de criticidad</h2>
+        <p class="desc" style="margin-bottom:0;">Los 12 activos más críticos, de mayor a menor índice.</p>
+      </div>
+    </div>
+    <div id="rankList" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="table-panel">
+    <div class="table-head-row">
+      <div>
+        <h2 style="margin-bottom:2px;">Matriz completa — activos editables</h2>
+        <p class="desc" style="margin-bottom:0;">Celdas con fondo teal = editables (criterios y probabilidad). El resto se calcula solo.</p>
+      </div>
+      <select class="filter-select" id="modoFilter">
+        <option value="__all__">Todos los modos</option>
+      </select>
+    </div>
+    <div class="legend-row" style="margin:14px 0 16px;">
+      <span class="legend-chip"><span class="sw" style="background:var(--z-baja)"></span>Baja (1–5.99)</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--z-media)"></span>Media (6–11.99)</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--z-alta)"></span>Alta (12–19.99)</span>
+      <span class="legend-chip"><span class="sw" style="background:var(--z-muyalta)"></span>Muy alta (20–25)</span>
+    </div>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Modo</th>
+            <th>Activo / Subsistema</th>
+            <th>Seg.</th>
+            <th>Cont.</th>
+            <th>Cob.</th>
+            <th>Costo</th>
+            <th>Imp.</th>
+            <th>Consec.</th>
+            <th>Prob.</th>
+            <th>Índice</th>
+            <th>Zona</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footnote">
+    <b>Sobre estos datos:</b> este inventario y las calificaciones de Seguridad, Continuidad, Cobertura, Costo e Impacto ambiental son ilustrativas, basadas en criterio experto genérico de mantenimiento de sistemas de transporte masivo y fuentes públicas (Wikipedia, Área Metropolitana del Valle de Aburrá) — no en datos internos de Metro de Medellín o Metroplus S.A. La Probabilidad de falla viene en 3 (valor neutro) para todos los activos por defecto: edítala con historial real de fallas u órdenes de trabajo. Debe validarse con el equipo técnico de cada operador antes de usarse para decisiones reales.
+  </div>
+
+</div>
+
+<script>
+const ASSETS = [{"modo": "Metro", "linea": "Linea A y B", "activo": "Material rodante - trenes", "funcion": "Vehiculos que transportan los pasajeros a lo largo de la linea.", "seguridad": 5, "continuidad": 5, "cobertura": 5, "costo": 4, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Via ferrea (rieles, traviesas, balasto/losa)", "funcion": "Soporte y guiado de los trenes sobre la infraestructura.", "seguridad": 5, "continuidad": 5, "cobertura": 5, "costo": 4, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Aparatos de via (cambios / agujas)", "funcion": "Permiten el cambio de trocha de los trenes entre vias.", "seguridad": 4, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Catenaria y alimentacion de traccion", "funcion": "Suministra energia electrica a los trenes en movimiento.", "seguridad": 4, "continuidad": 5, "cobertura": 5, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Subestaciones electricas de rectificacion", "funcion": "Transforman y rectifican la energia para la traccion electrica.", "seguridad": 4, "continuidad": 5, "cobertura": 5, "costo": 4, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Senalizacion y control de trenes (enclavamientos, ATP)", "funcion": "Garantiza la circulacion segura y el distanciamiento entre trenes.", "seguridad": 5, "continuidad": 5, "cobertura": 4, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Comunicaciones (radio, PA, CCTV)", "funcion": "Soporta la coordinacion operativa y la informacion a usuarios.", "seguridad": 3, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Sistema de recaudo (torniquetes, validadores)", "funcion": "Controla el acceso y cobro del pasaje.", "seguridad": 1, "continuidad": 2, "cobertura": 3, "costo": 1, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Escaleras electricas", "funcion": "Facilitan el desplazamiento vertical de pasajeros en estaciones.", "seguridad": 3, "continuidad": 2, "cobertura": 2, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Ascensores", "funcion": "Garantizan accesibilidad de personas con movilidad reducida.", "seguridad": 4, "continuidad": 2, "cobertura": 2, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Puentes y viaductos (tramos elevados)", "funcion": "Estructura civil que soporta los tramos elevados de la linea.", "seguridad": 5, "continuidad": 5, "cobertura": 5, "costo": 5, "impacto": 3, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Talleres y patios de mantenimiento", "funcion": "Mantenimiento, limpieza y estacionamiento del material rodante.", "seguridad": 2, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Sistema contraincendios y deteccion de humo", "funcion": "Proteccion contra incendios en estaciones.", "seguridad": 5, "continuidad": 2, "cobertura": 3, "costo": 2, "impacto": 2, "probabilidad": 3}, {"modo": "Metro", "linea": "Linea A y B", "activo": "Energia de respaldo (UPS / plantas electricas)", "funcion": "Garantiza continuidad de sistemas criticos ante corte electrico.", "seguridad": 3, "continuidad": 4, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Cabinas (telecabinas)", "funcion": "Transportan a los pasajeros suspendidos del cable.", "seguridad": 5, "continuidad": 4, "cobertura": 4, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Cable tractor-portante", "funcion": "Sostiene y desplaza las cabinas a lo largo de la linea.", "seguridad": 5, "continuidad": 5, "cobertura": 5, "costo": 5, "impacto": 2, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Pinzas (grips) de enganche de cabinas", "funcion": "Sujetan la cabina al cable en movimiento y en estacion.", "seguridad": 5, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Estacion motriz (motor principal y reductor)", "funcion": "Impulsa el movimiento del cable de toda la linea.", "seguridad": 4, "continuidad": 5, "cobertura": 5, "costo": 4, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Estacion de retorno / tension", "funcion": "Mantiene la tension adecuada del cable en el extremo opuesto.", "seguridad": 4, "continuidad": 4, "cobertura": 4, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Torres y pilonas de soporte", "funcion": "Sostienen el cable a lo largo del recorrido.", "seguridad": 5, "continuidad": 5, "cobertura": 5, "costo": 5, "impacto": 2, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Sistema de frenos de emergencia", "funcion": "Detiene el sistema ante una falla critica.", "seguridad": 5, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Sistema de control, variadores y PLC", "funcion": "Gobierna la velocidad y la operacion automatica del sistema.", "seguridad": 4, "continuidad": 5, "cobertura": 4, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Grupo electrogeno de emergencia (evacuacion)", "funcion": "Permite evacuar cabinas ante corte de energia.", "seguridad": 4, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metrocable", "linea": "Lineas J, K, L, H, M, P", "activo": "Estaciones (andenes de embarque/desembarque)", "funcion": "Puntos de acceso y transferencia de pasajeros.", "seguridad": 3, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Linea 1", "activo": "Buses articulados", "funcion": "Transporte de alta capacidad sobre el corredor troncal.", "seguridad": 4, "continuidad": 4, "cobertura": 4, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1 y 2", "activo": "Buses padrones (a gas y electricos)", "funcion": "Transporte troncal/pretroncal de capacidad media.", "seguridad": 4, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1 y 2", "activo": "Flota electrica y su infraestructura de carga", "funcion": "Buses electricos y electrolineras asociadas.", "seguridad": 3, "continuidad": 4, "cobertura": 3, "costo": 4, "impacto": 1, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Linea 1", "activo": "Carril exclusivo / pavimento troncal segregado", "funcion": "Infraestructura vial exclusiva y segregada del trafico mixto.", "seguridad": 3, "continuidad": 4, "cobertura": 4, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1 y 2", "activo": "Estaciones de plataforma alta y puertas de estacion", "funcion": "Embarque a nivel y control de acceso en estacion.", "seguridad": 3, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1, 2 y O", "activo": "Sistema de recaudo / validadores en estacion", "funcion": "Controla el acceso y cobro del pasaje.", "seguridad": 1, "continuidad": 2, "cobertura": 3, "costo": 1, "impacto": 1, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1, 2 y O", "activo": "Semaforizacion preferencial y gestion de flota (AVL/GPS)", "funcion": "Prioridad semaforica y seguimiento en tiempo real de la flota.", "seguridad": 2, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Metroplus", "linea": "Lineas 1, 2 y O", "activo": "Patios y talleres de mantenimiento de flota", "funcion": "Mantenimiento y estacionamiento de los buses.", "seguridad": 2, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 2, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Material rodante (tranvias)", "funcion": "Vehiculos que transportan pasajeros por el corredor del centro historico.", "seguridad": 5, "continuidad": 4, "cobertura": 3, "costo": 4, "impacto": 2, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Via tranviaria embebida en pavimento", "funcion": "Guiado del tranvia integrado al pavimento urbano.", "seguridad": 4, "continuidad": 4, "cobertura": 3, "costo": 4, "impacto": 2, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Alimentacion electrica (catenaria y tramos con acumuladores a bordo)", "funcion": "Suministra energia de traccion, incluyendo tramos sin catenaria visible en el centro historico.", "seguridad": 4, "continuidad": 5, "cobertura": 3, "costo": 4, "impacto": 1, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Subestacion electrica", "funcion": "Transforma y suministra energia de traccion a la linea.", "seguridad": 4, "continuidad": 4, "cobertura": 3, "costo": 3, "impacto": 1, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Senalizacion a nivel de calle / semaforizacion", "funcion": "Coordina el tranvia con el trafico urbano mixto.", "seguridad": 4, "continuidad": 3, "cobertura": 2, "costo": 2, "impacto": 1, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Estaciones y paradas", "funcion": "Puntos de acceso de pasajeros a lo largo del corredor.", "seguridad": 2, "continuidad": 2, "cobertura": 2, "costo": 1, "impacto": 1, "probabilidad": 3}, {"modo": "Tranvía", "linea": "Linea T", "activo": "Sistema de recaudo", "funcion": "Controla el acceso y cobro del pasaje.", "seguridad": 1, "continuidad": 2, "cobertura": 2, "costo": 1, "impacto": 1, "probabilidad": 3}, {"modo": "Buses alimentadores", "linea": "Rutas integradas (cuencas Metro/Metroplus)", "activo": "Flota de buses alimentadores", "funcion": "Conectan barrios perifericos con las estaciones troncales del sistema.", "seguridad": 4, "continuidad": 3, "cobertura": 3, "costo": 2, "impacto": 2, "probabilidad": 3}, {"modo": "Buses alimentadores", "linea": "Rutas integradas (cuencas Metro/Metroplus)", "activo": "Paraderos e infraestructura de rutas alimentadoras", "funcion": "Puntos de parada y transferencia de las rutas alimentadoras.", "seguridad": 2, "continuidad": 2, "cobertura": 2, "costo": 1, "impacto": 1, "probabilidad": 3}, {"modo": "Buses alimentadores", "linea": "Rutas integradas (cuencas Metro/Metroplus)", "activo": "Patios y talleres de mantenimiento de alimentadores", "funcion": "Mantenimiento y estacionamiento de la flota alimentadora.", "seguridad": 2, "continuidad": 3, "cobertura": 2, "costo": 2, "impacto": 2, "probabilidad": 3}, {"modo": "Buses alimentadores", "linea": "Rutas integradas (cuencas Metro/Metroplus)", "activo": "Sistema de recaudo embarcado (validadores)", "funcion": "Controla el cobro del pasaje a bordo del vehiculo.", "seguridad": 1, "continuidad": 2, "cobertura": 2, "costo": 1, "impacto": 1, "probabilidad": 3}];
+
+const MODE_COLORS = {
+  "Metro": "var(--m-metro)",
+  "Metrocable": "var(--m-cable)",
+  "Metroplus": "var(--m-plus)",
+  "Tranvía": "var(--m-tranvia)",
+  "Buses alimentadores": "var(--m-alim)",
+
+};
+const MODE_HEX = {
+  "Metro": "#2E6BE0",
+  "Metrocable": "#D97706",
+  "Metroplus": "#C0272D",
+  "Tranvía": "#8A4FC2",
+  "Buses alimentadores": "#5B6E76",
+
+};
+const MODE_SHORT = {
+  "Metro": "Metro A/B",
+  "Metrocable": "Metrocable",
+  "Metroplus": "Metroplus",
+  "Tranvía": "Tranvía",
+  "Buses alimentadores": "Alimentadores",
+
+};
+
+const CRITERIA = [
+  {key:"seguridad", name:"Seguridad de las personas", weight:0.30},
+  {key:"continuidad", name:"Continuidad operacional", weight:0.25},
+  {key:"cobertura", name:"Cobertura / usuarios", weight:0.20},
+  {key:"costo", name:"Costo de reparación", weight:0.15},
+  {key:"impacto", name:"Impacto ambiental", weight:0.10},
+];
+const DEFAULT_WEIGHTS = CRITERIA.map(c=>c.weight);
+
+let weights = [...DEFAULT_WEIGHTS];
+let activeMode = "__all__";
+
+function zoneFor(idx){
+  if(idx>=20) return {name:"Muy Alta", color:"var(--z-muyalta)"};
+  if(idx>=12) return {name:"Alta", color:"var(--z-alta)"};
+  if(idx>=6) return {name:"Media", color:"var(--z-media)"};
+  return {name:"Baja", color:"var(--z-baja)"};
+}
+
+function normWeights(){
+  const sum = weights.reduce((a,b)=>a+b,0);
+  return sum>0 ? weights.map(w=>w/sum) : weights;
+}
+
+function consequence(asset){
+  const nw = normWeights();
+  let c = 0;
+  CRITERIA.forEach((crit,i)=>{ c += nw[i]*asset[crit.key]; });
+  return c;
+}
+function index(asset){
+  return consequence(asset)*asset.probabilidad;
+}
+
+// ---------- RAIL ----------
+function buildRail(){
+  const rail = document.getElementById('rail');
+  rail.innerHTML = '';
+  const modes = ["__all__", ...Object.keys(MODE_COLORS)];
+  modes.forEach(m=>{
+    const btn = document.createElement('button');
+    btn.className = 'station' + (activeMode===m ? ' active':'');
+    const count = m==="__all__" ? ASSETS.length : ASSETS.filter(a=>a.modo===m).length;
+    const color = m==="__all__" ? "#1A2020" : MODE_HEX[m];
+    btn.style.color = color;
+    btn.innerHTML = `<span class="dot" style="background:${color}"></span>
+      <span class="label">${m==="__all__" ? "Todos" : MODE_SHORT[m]}</span>
+      <span class="station-count">${count}</span>`;
+    btn.onclick = ()=>{ activeMode = m; renderAll(); };
+    rail.appendChild(btn);
+  });
+}
+
+// ---------- SLIDERS ----------
+function buildSliders(){
+  const el = document.getElementById('sliders');
+  el.innerHTML = '';
+  CRITERIA.forEach((crit,i)=>{
+    const div = document.createElement('div');
+    div.className = 'criterio';
+    div.innerHTML = `
+      <div class="criterio-top">
+        <span class="criterio-name">${crit.name}</span>
+        <span class="criterio-val" id="val-${i}">${Math.round(normWeights()[i]*100)}%</span>
+      </div>
+      <input type="range" min="1" max="60" value="${Math.round(weights[i]*100)}" id="slider-${i}">
+    `;
+    el.appendChild(div);
+    div.querySelector('input').addEventListener('input', (e)=>{
+      weights[i] = parseInt(e.target.value)/100;
+      renderAll();
+    });
+  });
+}
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  weights = [...DEFAULT_WEIGHTS];
+  buildSliders();
+  renderAll();
+});
+
+// ---------- MODE FILTER SELECT ----------
+function buildModoFilter(){
+  const sel = document.getElementById('modoFilter');
+  sel.innerHTML = '<option value="__all__">Todos los modos</option>';
+  Object.keys(MODE_COLORS).forEach(m=>{
+    const o = document.createElement('option');
+    o.value = m; o.textContent = m.replace('Lineas','Líneas');
+    sel.appendChild(o);
+  });
+  sel.value = activeMode;
+  sel.addEventListener('change', (e)=>{ activeMode = e.target.value; renderAll(); });
+}
+
+function filteredAssets(){
+  return activeMode==="__all__" ? ASSETS : ASSETS.filter(a=>a.modo===activeMode);
+}
+
+// ---------- ZONE SUMMARY ----------
+function renderZones(){
+  const list = filteredAssets();
+  const counts = {Baja:0, Media:0, Alta:0, "Muy Alta":0};
+  list.forEach(a=>{ counts[zoneFor(index(a)).name]++; });
+  const total = list.length;
+  document.getElementById('totalCount').textContent = total;
+  const order = [
+    {k:"Muy Alta", var:"var(--z-muyalta)"},
+    {k:"Alta", var:"var(--z-alta)"},
+    {k:"Media", var:"var(--z-media)"},
+    {k:"Baja", var:"var(--z-baja)"},
+  ];
+  const el = document.getElementById('zones');
+  el.innerHTML = order.map(o=>{
+    const pct = total? Math.round(counts[o.k]/total*100):0;
+    return `<div class="zone-card" style="--zc:${o.var}">
+      <div class="zn">${o.k}</div>
+      <div class="zc">${counts[o.k]}</div>
+      <div class="zp">${pct}% del total</div>
+    </div>`;
+  }).join('');
+}
+
+// ---------- SCATTER ----------
+function zoneColorForCell(row, col){
+  // row = probabilidad 1-5, col = consecuencia 1-5 (integer reference grid, index = row*col)
+  const i = row*col;
+  if(i>=20) return "var(--z-muyalta)";
+  if(i>=12) return "var(--z-alta)";
+  if(i>=6) return "var(--z-media)";
+  return "var(--z-baja)";
+}
+
+function renderScatter(){
+  const svg = document.getElementById('scatter');
+  const tooltip = document.getElementById('tooltip');
+  const list = filteredAssets();
+  const W=460,H=320, padL=38, padR=14, padT=14, padB=34;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const cellW = plotW/5, cellH = plotH/5;
+
+  // x axis = consecuencia (1-5), y axis = probabilidad (1-5, 1 at bottom)
+  const xFor = v => padL + (v-1)/4*plotW;
+  const yFor = v => padT + plotH - (v-1)/4*plotH;
+
+  let svgHtml = '';
+
+  // fixed reference matrix background: 5x5 cells colored by row*col zone
+  for(let row=1; row<=5; row++){        // probabilidad
+    for(let col=1; col<=5; col++){      // consecuencia
+      const x0 = padL + (col-1)*cellW;
+      const y0 = padT + (5-row)*cellH;
+      svgHtml += `<rect class="cell-bg" x="${x0}" y="${y0}" width="${cellW}" height="${cellH}"
+        fill="${zoneColorForCell(row,col)}" fill-opacity="0.16"></rect>`;
+    }
+  }
+
+  // axis tick labels
+  for(let g=1; g<=5; g++){
+    svgHtml += `<text class="axis-label" x="${xFor(g)}" y="${padT+plotH+16}" text-anchor="middle">${g}</text>`;
+    svgHtml += `<text class="axis-label" x="${padL-8}" y="${yFor(g)+3}" text-anchor="end">${g}</text>`;
+  }
+  svgHtml += `<text class="axis-title" x="${padL+plotW/2}" y="${H-4}" text-anchor="middle">Consecuencia (seguridad · operación · costo)</text>`;
+  svgHtml += `<text class="axis-title" transform="translate(12,${padT+plotH/2}) rotate(-90)" text-anchor="middle">Probabilidad</text>`;
+
+  // jitter overlapping points slightly for visibility
+  const seen = {};
+  list.forEach((a)=>{
+    const c = consequence(a);
+    const p = a.probabilidad;
+    const key = Math.round(c*4)+"_"+p;
+    seen[key] = (seen[key]||0);
+    const jitterCount = seen[key];
+    seen[key]++;
+    const jx = (jitterCount%3-1)*5;
+    const jy = Math.floor(jitterCount/3)*5;
+    const cx = xFor(c)+jx;
+    const cy = yFor(p)+jy;
+    const zone = zoneFor(index(a));
+    svgHtml += `<circle class="pt" cx="${cx}" cy="${cy}" r="6" fill="${zone.color}"
+      data-name="${a.activo.replace(/"/g,'&quot;')}" data-modo="${a.modo}"
+      data-idx="${index(a).toFixed(2)}" data-zone="${zone.name}"></circle>`;
+  });
+
+  svg.innerHTML = svgHtml;
+
+  svg.querySelectorAll('.pt').forEach(pt=>{
+    pt.addEventListener('mousemove', (e)=>{
+      const rect = svg.getBoundingClientRect();
+      tooltip.style.opacity = 1;
+      tooltip.style.left = (e.clientX-rect.left-svg.parentElement.getBoundingClientRect().left+16)+'px';
+      tooltip.style.top = (e.clientY-rect.top-svg.parentElement.getBoundingClientRect().top-10)+'px';
+      tooltip.innerHTML = `<b>${pt.dataset.name}</b>${pt.dataset.modo} · <span class="tt-idx">Índice ${pt.dataset.idx}</span> · ${pt.dataset.zone}`;
+    });
+    pt.addEventListener('mouseleave', ()=>{ tooltip.style.opacity = 0; });
+  });
+}
+
+// ---------- RANKING ----------
+function renderRanking(){
+  const list = filteredAssets().map(a=>({a, idx:index(a)})).sort((x,y)=>y.idx-x.idx).slice(0,12);
+  const maxIdx = 25;
+  const el = document.getElementById('rankList');
+  el.innerHTML = list.map((item,i)=>{
+    const zone = zoneFor(item.idx);
+    return `<div class="rank-row">
+      <span class="rn">${String(i+1).padStart(2,'0')}</span>
+      <span class="ra">${item.a.activo}<span class="rm">${item.a.modo}</span></span>
+      <span class="ri" style="color:${zone.color}">${item.idx.toFixed(2)}</span>
+      <span class="rank-bar-track"><span class="rank-bar" style="width:${(item.idx/maxIdx*100).toFixed(0)}%;background:${zone.color}"></span></span>
+    </div>`;
+  }).join('');
+}
+
+// ---------- TABLE ----------
+function renderTable(){
+  const tbody = document.getElementById('tbody');
+  const list = filteredAssets();
+  tbody.innerHTML = list.map((a, i)=>{
+    const globalIdx = ASSETS.indexOf(a);
+    const c = consequence(a);
+    const idx = c*a.probabilidad;
+    const zone = zoneFor(idx);
+    return `<tr>
+      <td class="cell-modo">${a.modo}</td>
+      <td class="cell-activo">${a.activo}<span class="cf">${a.funcion}</span></td>
+      <td>${numInput(globalIdx,'seguridad',a.seguridad)}</td>
+      <td>${numInput(globalIdx,'continuidad',a.continuidad)}</td>
+      <td>${numInput(globalIdx,'cobertura',a.cobertura)}</td>
+      <td>${numInput(globalIdx,'costo',a.costo)}</td>
+      <td>${numInput(globalIdx,'impacto',a.impacto)}</td>
+      <td class="mono">${c.toFixed(2)}</td>
+      <td>${numInput(globalIdx,'probabilidad',a.probabilidad,'prob')}</td>
+      <td class="idx-cell" style="color:${zone.color}">${idx.toFixed(2)}</td>
+      <td><span class="zona-badge" style="background:${zone.color}22;color:${zone.color}">${zone.name}</span></td>
+    </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('.num-input').forEach(inp=>{
+    inp.addEventListener('change', (e)=>{
+      let v = parseInt(e.target.value);
+      if(isNaN(v)) v=1;
+      v = Math.max(1, Math.min(5, v));
+      e.target.value = v;
+      const gi = parseInt(e.target.dataset.gi);
+      const key = e.target.dataset.key;
+      ASSETS[gi][key] = v;
+      renderAll();
+    });
+  });
+}
+function numInput(gi,key,val,extra){
+  return `<input class="num-input ${extra||''}" type="number" min="1" max="5" value="${val}" data-gi="${gi}" data-key="${key}">`;
+}
+
+function renderWeightSum(){
+  const sum = Math.round(weights.reduce((a,b)=>a+b,0)*100);
+  document.getElementById('weightSum').textContent = sum + '%';
+  const nw = normWeights();
+  CRITERIA.forEach((c,i)=>{
+    const valEl = document.getElementById('val-'+i);
+    if(valEl) valEl.textContent = Math.round(nw[i]*100)+'%';
+  });
+}
+
+function renderAll(){
+  buildRail();
+  renderWeightSum();
+  renderZones();
+  renderScatter();
+  renderRanking();
+  renderTable();
+  const sel = document.getElementById('modoFilter');
+  if(sel.value !== activeMode) sel.value = activeMode;
+}
+
+buildSliders();
+buildModoFilter();
+renderAll();
+</script>
+</body>
+</html>

@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from utils.theme import aplicar_tema_udea
 import streamlit as st
+
 import pandas as pd
+
 from pathlib import Path
 
 from data.metro_data import TRANVIA, BUSES, LINEAS
@@ -18,6 +21,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+aplicar_tema_udea(marca_agua=True)
 
 
 # ============================================================
@@ -181,13 +185,13 @@ st.markdown(
     .hero-title {
         font-size: 2.2rem;
         font-weight: 750;
-        color: #111827;
+        color: #FFFFFF;
         line-height: 1.15;
     }
 
     .hero-subtitle {
         font-size: 1rem;
-        color: #6b7280;
+        color: rgba(255,255,255,.82);
         margin-top: 6px;
     }
 
@@ -336,7 +340,7 @@ st.caption(
 )
 
 st.link_button(
-    "📖 Abrir informe completo en Canva →",
+    "📖 Abrir informe completo→",
     "https://www.canva.com/design/DAHSxqUCCKM/zPJ8-JzQHxjnWaObShsMAg/view?utm_content=DAHSxqUCCKM&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hef7e6573db",
     width="stretch",
 )
