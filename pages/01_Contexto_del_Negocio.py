@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils.theme import aplicar_tema_udea
+from utils.theme import aplicar_tema_udea, encabezado_pagina
 import streamlit as st
 import pandas as pd
 
@@ -236,22 +236,10 @@ st.markdown(
 # CABECERA
 # ============================================================
 
-st.markdown(
-    """
-    <div class="hero">
-
-        <div class="hero-title">
-            🏢 CONTEXTO DEL NEGOCIO
-        </div>
-
-        <div class="hero-subtitle">
-            Metro de Medellín · Contexto corporativo, financiero,
-            estratégico y de gestión de activos para el análisis RCM
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True,
+encabezado_pagina(
+    "Contexto del Negocio",
+    "Metro de Medellín · Contexto corporativo, financiero, estratégico y de gestión de activos para el análisis RCM.",
+    "🏢",
 )
 
 
@@ -376,33 +364,32 @@ with tabs[0]:
 
         st.markdown(
             """
-            <div class="section-card">
+<div class="section-card">
 
-                <div class="card-title">
-                    Identificación
-                </div>
+<div class="card-title">
+Identificación
+</div>
 
-                <div class="card-text">
+<div class="card-text">
 
-                    <strong>Razón social</strong><br>
-                    Empresa de Transporte Masivo del Valle de
-                    Aburrá Ltda.
+<strong>Razón social</strong><br>
+Empresa de Transporte Masivo del Valle de
+Aburrá Ltda.
 
-                    <br><br>
+<br><br>
 
-                    <strong>Naturaleza</strong><br>
-                    Empresa de transporte masivo de carácter público.
+<strong>Naturaleza</strong><br>
+Empresa de transporte masivo de carácter público.
 
-                    <br><br>
+<br><br>
 
-                    <strong>Actividad principal</strong><br>
-                    Prestación del servicio integrado de transporte
-                    masivo de pasajeros.
+<strong>Actividad principal</strong><br>
+Prestación del servicio integrado de transporte
+masivo de pasajeros.
 
-                </div>
+</div>
 
-            </div>
-            """,
+</div>""",
             unsafe_allow_html=True,
         )
 
@@ -410,22 +397,21 @@ with tabs[0]:
 
         st.markdown(
             """
-            <div class="section-card">
+<div class="section-card">
 
-                <div class="card-title">
-                    Estructura de propiedad
-                </div>
+<div class="card-title">
+Estructura de propiedad
+</div>
 
-                <div class="card-text">
+<div class="card-text">
 
-                    La participación institucional está distribuida
-                    en partes iguales entre el Distrito de Medellín
-                    y el Departamento de Antioquia.
+La participación institucional está distribuida
+en partes iguales entre el Distrito de Medellín
+y el Departamento de Antioquia.
 
-                </div>
+</div>
 
-            </div>
-            """,
+</div>""",
             unsafe_allow_html=True,
         )
 
@@ -478,18 +464,17 @@ with tabs[0]:
 
             st.markdown(
                 f"""
-                <div class="value-box">
+<div class="value-box">
 
-                    <div class="value-title">
-                        {icono} {nombre}
-                    </div>
+<div class="value-title">
+{icono} {nombre}
+</div>
 
-                    <div class="value-text">
-                        {descripcion}
-                    </div>
+<div class="value-text">
+{descripcion}
+</div>
 
-                </div>
-                """,
+</div>""",
                 unsafe_allow_html=True,
             )
 
@@ -764,18 +749,17 @@ with tabs[2]:
 
     st.markdown(
         f"""
-        <div class="section-card">
+<div class="section-card">
 
-            <div class="card-title">
-                {elemento}
-            </div>
+<div class="card-title">
+{elemento}
+</div>
 
-            <div class="card-text">
-                {modelo[elemento]}
-            </div>
+<div class="card-text">
+{modelo[elemento]}
+</div>
 
-        </div>
-        """,
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -808,18 +792,17 @@ with tabs[2]:
 
                 st.markdown(
                     f"""
-                    <div class="flow-box">
+<div class="flow-box">
 
-                        <div class="flow-title">
-                            {titulo}
-                        </div>
+<div class="flow-title">
+{titulo}
+</div>
 
-                        <div class="flow-text">
-                            {descripcion}
-                        </div>
+<div class="flow-text">
+{descripcion}
+</div>
 
-                    </div>
-                    """,
+</div>""",
                     unsafe_allow_html=True,
                 )
 
@@ -850,18 +833,17 @@ with tabs[3]:
 
             st.markdown(
                 f"""
-                <div class="section-card">
+<div class="section-card">
 
-                    <div class="card-title">
-                        OE{i}
-                    </div>
+<div class="card-title">
+OE{i}
+</div>
 
-                    <div class="card-text">
-                        {objetivo}
-                    </div>
+<div class="card-text">
+{objetivo}
+</div>
 
-                </div>
-                """,
+</div>""",
                 unsafe_allow_html=True,
             )
 
@@ -990,26 +972,25 @@ with tabs[4]:
 
     st.markdown(
         """
-        <div class="section-card">
+<div class="section-card">
 
-            <div class="card-title">
-                Estructura de gobierno
-            </div>
+<div class="card-title">
+Estructura de gobierno
+</div>
 
-            <div class="card-text">
+<div class="card-text">
 
-                Junta de Socios → Junta Directiva → Gerencia General
+Junta de Socios → Junta Directiva → Gerencia General
 
-                <br><br>
+<br><br>
 
-                Con mecanismos de apoyo para auditoría, riesgos,
-                gobierno corporativo, asuntos financieros, estrategia
-                y proyectos.
+Con mecanismos de apoyo para auditoría, riesgos,
+gobierno corporativo, asuntos financieros, estrategia
+y proyectos.
 
-            </div>
+</div>
 
-        </div>
-        """,
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1067,18 +1048,17 @@ with tabs[5]:
 
     st.markdown(
         f"""
-        <div class="section-card">
+<div class="section-card">
 
-            <div class="card-title">
-                {factor}
-            </div>
+<div class="card-title">
+{factor}
+</div>
 
-            <div class="card-text">
-                {pestel[factor]}
-            </div>
+<div class="card-text">
+{pestel[factor]}
+</div>
 
-        </div>
-        """,
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1200,14 +1180,13 @@ with tabs[6]:
 
             st.markdown(
                 f"""
-                <div class="value-box">
+<div class="value-box">
 
-                    <div class="value-title">
-                        {icono} {titulo}
-                    </div>
+<div class="value-title">
+{icono} {titulo}
+</div>
 
-                </div>
-                """,
+</div>""",
                 unsafe_allow_html=True,
             )
 
@@ -1509,15 +1488,14 @@ with c1:
 
     st.markdown(
         """
-        <div class="flow-box">
-            <div class="flow-title">
-                Negocio
-            </div>
-            <div class="flow-text">
-                ¿Qué valor debe generar?
-            </div>
-        </div>
-        """,
+<div class="flow-box">
+<div class="flow-title">
+Negocio
+</div>
+<div class="flow-text">
+¿Qué valor debe generar?
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1526,15 +1504,14 @@ with c2:
 
     st.markdown(
         """
-        <div class="flow-box">
-            <div class="flow-title">
-                Operación
-            </div>
-            <div class="flow-text">
-                ¿En qué condiciones?
-            </div>
-        </div>
-        """,
+<div class="flow-box">
+<div class="flow-title">
+Operación
+</div>
+<div class="flow-text">
+¿En qué condiciones?
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1543,15 +1520,14 @@ with c3:
 
     st.markdown(
         """
-        <div class="flow-box">
-            <div class="flow-title">
-                Activos
-            </div>
-            <div class="flow-text">
-                ¿Qué soporta el servicio?
-            </div>
-        </div>
-        """,
+<div class="flow-box">
+<div class="flow-title">
+Activos
+</div>
+<div class="flow-text">
+¿Qué soporta el servicio?
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1560,15 +1536,14 @@ with c4:
 
     st.markdown(
         """
-        <div class="flow-box">
-            <div class="flow-title">
-                Funciones
-            </div>
-            <div class="flow-text">
-                ¿Qué deben cumplir?
-            </div>
-        </div>
-        """,
+<div class="flow-box">
+<div class="flow-title">
+Funciones
+</div>
+<div class="flow-text">
+¿Qué deben cumplir?
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -1577,15 +1552,14 @@ with c5:
 
     st.markdown(
         """
-        <div class="flow-box">
-            <div class="flow-title">
-                RCM
-            </div>
-            <div class="flow-text">
-                ¿Cómo mantenerlas?
-            </div>
-        </div>
-        """,
+<div class="flow-box">
+<div class="flow-title">
+RCM
+</div>
+<div class="flow-text">
+¿Cómo mantenerlas?
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 

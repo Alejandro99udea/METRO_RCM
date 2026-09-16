@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils.theme import aplicar_tema_udea
+from utils.theme import aplicar_tema_udea, encabezado_pagina
 import streamlit as st
 
 import pandas as pd
@@ -165,70 +165,11 @@ for nombre_archivo in [
 # ESTILOS
 # ============================================================
 
-st.markdown(
-    """
-    <style>
-
-    .hero {
-        background: linear-gradient(
-            135deg,
-            #ffffff 0%,
-            #f4f6f8 100%
-        );
-        border: 1px solid #dfe3e8;
-        border-radius: 18px;
-        padding: 26px 32px;
-        margin-bottom: 24px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-    }
-
-    .hero-title {
-        font-size: 2.2rem;
-        font-weight: 750;
-        color: #FFFFFF;
-        line-height: 1.15;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
-        color: rgba(255,255,255,.82);
-        margin-top: 6px;
-    }
-
-    .system-card {
-        background: #ffffff;
-        border: 1px solid #dfe3e8;
-        border-radius: 16px;
-        padding: 20px;
-        min-height: 145px;
-        box-shadow: 0 3px 12px rgba(0,0,0,0.04);
-    }
-
-    .system-card-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-        color: #111827;
-        margin-bottom: 8px;
-    }
-
-    .system-card-text {
-        font-size: 0.9rem;
-        color: #6b7280;
-        line-height: 1.45;
-    }
-
-    .pending-box {
-        background: #fff8e6;
-        border: 1px solid #efd28a;
-        border-radius: 14px;
-        padding: 18px;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True,
+encabezado_pagina(
+    "Contexto Operacional",
+    "Sistema integrado de consulta operacional y gestión de activos — Metro de Medellín.",
+    "⚙️",
 )
-
 
 # ============================================================
 # FUNCIONES AUXILIARES
@@ -275,18 +216,17 @@ def mostrar_linea_pendiente(nombre_linea, modo):
 
     st.markdown(
         """
-        <div class="pending-box">
+<div class="pending-box">
 
-        <strong>Información pendiente de consolidación</strong>
+<strong>Información pendiente de consolidación</strong>
 
-        <br><br>
+<br><br>
 
-        Para desarrollar esta línea como módulo RCM se requiere
-        documentación operacional, técnica y de mantenimiento
-        específica del activo.
+Para desarrollar esta línea como módulo RCM se requiere
+documentación operacional, técnica y de mantenimiento
+específica del activo.
 
-        </div>
-        """,
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -294,16 +234,15 @@ def mostrar_linea_pendiente(nombre_linea, modo):
 def tarjeta_sistema(icono, nombre, descripcion):
     st.markdown(
         f"""
-        <div class="system-card">
-            <div class="system-card-title">
-                {icono} {nombre}
-            </div>
+<div class="system-card">
+<div class="system-card-title">
+{icono} {nombre}
+</div>
 
-            <div class="system-card-text">
-                {descripcion}
-            </div>
-        </div>
-        """,
+<div class="system-card-text">
+{descripcion}
+</div>
+</div>""",
         unsafe_allow_html=True,
     )
 
@@ -314,17 +253,16 @@ def tarjeta_sistema(icono, nombre, descripcion):
 
 st.markdown(
     """
-    <div class="hero">
-        <div class="hero-title">
-            ⚙️ CONTEXTO OPERACIONAL
-        </div>
+<div class="hero">
+<div class="hero-title">
+⚙️ CONTEXTO OPERACIONAL
+</div>
 
-        <div class="hero-subtitle">
-            Sistema integrado de consulta operacional y gestión
-            de activos — Metro de Medellín
-        </div>
-    </div>
-    """,
+<div class="hero-subtitle">
+Sistema integrado de consulta operacional y gestión
+de activos — Metro de Medellín
+</div>
+</div>""",
     unsafe_allow_html=True,
 )
 
@@ -424,10 +362,9 @@ if linea_seleccionada == "Línea A":
 
         st.markdown(
             """
-            <div style="
-                padding-top: 15px;
-            ">
-            """,
+<div style="
+padding-top: 15px;
+">""",
             unsafe_allow_html=True
         )
 
@@ -667,18 +604,17 @@ if linea_seleccionada == "Línea A":
 
             st.markdown(
                 f"""
-                <div class="system-card">
-                    <div class="system-card-title">
-                        🔄 {transferencia}
-                    </div>
+<div class="system-card">
+<div class="system-card-title">
+🔄 {transferencia}
+</div>
 
-                    <div class="system-card-text">
-                        Estación identificada como punto de
-                        transferencia dentro de la información
-                        operacional de Línea A.
-                    </div>
-                </div>
-                """,
+<div class="system-card-text">
+Estación identificada como punto de
+transferencia dentro de la información
+operacional de Línea A.
+</div>
+</div>""",
                 unsafe_allow_html=True,
             )
 
@@ -2074,19 +2010,18 @@ else:
 
                 st.markdown(
                     f"""
-                    <div class="system-card">
+<div class="system-card">
 
-                        <div class="system-card-title">
-                            🔄 {transferencia}
-                        </div>
+<div class="system-card-title">
+🔄 {transferencia}
+</div>
 
-                        <div class="system-card-text">
-                            Estación identificada como punto
-                            de transferencia de la Línea B.
-                        </div>
+<div class="system-card-text">
+Estación identificada como punto
+de transferencia de la Línea B.
+</div>
 
-                    </div>
-                    """,
+</div>""",
                     unsafe_allow_html=True,
                 )
 
@@ -2280,19 +2215,18 @@ Tareas RCM
 
         st.markdown(
             """
-            <div class="pending-box">
+<div class="pending-box">
 
-            <strong>Estado del módulo</strong>
+<strong>Estado del módulo</strong>
 
-            <br><br>
+<br><br>
 
-            Esta línea ya forma parte de la arquitectura general
-            del aplicativo, pero su contexto operacional específico
-            todavía debe consolidarse con documentación técnica
-            y operacional.
+Esta línea ya forma parte de la arquitectura general
+del aplicativo, pero su contexto operacional específico
+todavía debe consolidarse con documentación técnica
+y operacional.
 
-            </div>
-            """,
+</div>""",
             unsafe_allow_html=True,
         )
 
@@ -2338,23 +2272,22 @@ Tareas RCM
 
     st.markdown(
         """
-        <div class="pending-box">
+<div class="pending-box">
 
-        <strong>Estado del módulo</strong>
+<strong>Estado del módulo</strong>
 
-        <br><br>
+<br><br>
 
-        Esta línea ya forma parte de la arquitectura general del
-        aplicativo, pero su contexto operacional específico todavía
-        debe consolidarse con documentación técnica y operacional.
+Esta línea ya forma parte de la arquitectura general del
+aplicativo, pero su contexto operacional específico todavía
+debe consolidarse con documentación técnica y operacional.
 
-        <br><br>
+<br><br>
 
-        No se presentan aquí parámetros que no hayan sido
-        documentados y verificados para la línea correspondiente.
+No se presentan aquí parámetros que no hayan sido
+documentados y verificados para la línea correspondiente.
 
-        </div>
-        """,
+</div>""",
         unsafe_allow_html=True,
     )
 

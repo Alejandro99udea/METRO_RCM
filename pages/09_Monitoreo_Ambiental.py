@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from utils.theme import aplicar_tema_udea
+from utils.theme import aplicar_tema_udea, encabezado_pagina
 import streamlit as st
 import streamlit.components.v1 as components
 from datetime import datetime
@@ -22,26 +22,11 @@ aplicar_tema_udea(marca_agua=True)
 # CABECERA
 # ============================================================
 
-st.markdown(
-    """
-    <div class="metro-header">
-
-        <div class="metro-header-title">
-            📡 MONITOREO AMBIENTAL
-        </div>
-
-        <div class="metro-header-subtitle">
-            SIATA · Condiciones hidrometeorológicas
-            del Valle de Aburrá
-        </div>
-
-    </div>
-
-    <div class="metro-accent"></div>
-    """,
-    unsafe_allow_html=True,
+encabezado_pagina(
+    "Monitoreo Ambiental",
+    "SIATA · Condiciones hidrometeorológicas del Valle de Aburrá.",
+    "📡",
 )
-
 
 # ============================================================
 # INTRODUCCIÓN

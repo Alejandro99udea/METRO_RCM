@@ -497,14 +497,14 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
 
         st.sidebar.markdown(
             """
-            <div class="udea-sidebar-brand">
-                <img src="%s" alt="Universidad de Antioquia">
-                <div class="udea-sidebar-title">METRO_RCM</div>
-                <div class="udea-sidebar-subtitle">
-                    Gestión de Activos · Confiabilidad · RCM
-                </div>
-            </div>
-            """ % brand_src,
+<div class="udea-sidebar-brand">
+<img src="%s" alt="Universidad de Antioquia">
+<div class="udea-sidebar-title">METRO_RCM</div>
+<div class="udea-sidebar-subtitle">
+Gestión de Activos · Confiabilidad · RCM
+</div>
+</div>
+""" % brand_src,
             unsafe_allow_html=True,
         )
         st.sidebar.divider()
@@ -536,11 +536,11 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
 
         st.sidebar.markdown(
             '''
-            <div style="margin:16px 10px 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.16);text-align:center;">
-                <div style="color:#4BD18E;font-size:.76rem;font-weight:800;">RCM · Metro de Medellín</div>
-                <div style="color:rgba(255,255,255,.72);font-size:.70rem;margin-top:3px;">Gestión de la Confiabilidad para la Sostenibilidad</div>
-            </div>
-            ''',
+<div style="margin:16px 10px 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.16);text-align:center;">
+<div style="color:#4BD18E;font-size:.76rem;font-weight:800;">RCM · Metro de Medellín</div>
+<div style="color:rgba(255,255,255,.72);font-size:.70rem;margin-top:3px;">Gestión de la Confiabilidad para la Sostenibilidad</div>
+</div>
+''',
             unsafe_allow_html=True,
         )
 
@@ -550,14 +550,14 @@ def encabezado_pagina(titulo: str, subtitulo: str = "", icono: str = "") -> None
     etiqueta = f"{icono} {titulo}".strip()
     st.markdown(
         """
-        <div class="udea-page-heading">
-            <div class="accent"></div>
-            <div>
-                <div class="title">%s</div>
-                <div class="subtitle">%s</div>
-            </div>
-        </div>
-        """
+<div class="udea-page-heading">
+<div class="accent"></div>
+<div>
+<div class="title">%s</div>
+<div class="subtitle">%s</div>
+</div>
+</div>
+"""
         % (etiqueta, subtitulo),
         unsafe_allow_html=True,
     )
