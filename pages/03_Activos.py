@@ -20,15 +20,14 @@ encabezado_pagina(
 
 st.markdown(
     """
-    <div class="section-intro">
-        <div class="section-kicker">ARQUITECTURA DE ACTIVOS</div>
-        <div class="section-title">Explorador de jerarquía técnica</div>
-        <div class="section-description">
-            La navegación parte del modo de transporte y desciende hacia el nivel
-            de sistema, subsistema, equipo y componente para soportar el análisis RCM.
-        </div>
-    </div>
-    """,
+<div class="section-intro">
+<div class="section-kicker">ARQUITECTURA DE ACTIVOS</div>
+<div class="section-title">Explorador de jerarquía técnica</div>
+<div class="section-description">
+La navegación parte del modo de transporte y desciende hacia el nivel
+de sistema, subsistema, equipo y componente para soportar el análisis RCM.
+</div>
+</div>""",
     unsafe_allow_html=True,
 )
 

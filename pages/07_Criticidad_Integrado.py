@@ -93,10 +93,9 @@ if "pesos_base" not in st.session_state:
 
 st.markdown("""
 <div class="metro-header">
-  <div class="metro-header-title">⚠️ MATRIZ DE CRITICIDAD DE ACTIVOS</div>
-  <div class="metro-header-subtitle">Pesos definidos por encuesta · Consecuencia ponderada · Probabilidad de falla</div>
-</div><div class="metro-accent"></div>
-""", unsafe_allow_html=True)
+<div class="metro-header-title">⚠️ MATRIZ DE CRITICIDAD DE ACTIVOS</div>
+<div class="metro-header-subtitle">Pesos definidos por encuesta · Consecuencia ponderada · Probabilidad de falla</div>
+</div><div class="metro-accent"></div>""", unsafe_allow_html=True)
 
 ENDPOINT_DEFAULT = "https://script.google.com/macros/s/AKfycbxnD56RbYrRxpgo8K1EKCTJSrN23c5GFLsHvaPr6sWLhmA1O0vEm7T-OrI0lJdknLSA/exec"
 

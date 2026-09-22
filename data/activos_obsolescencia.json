@@ -1,0 +1,202 @@
+{
+    "Buses GNV (Metroplús)": {
+        "Generación": "3ª Gen Inicial (22/40)",
+        "TCT": "1 a 3 años",
+        "Prioridad": "PRIORIDAD 1",
+        "Estrategia": "Renovación a flota 100% Eléctrica.",
+        "Contexto": "Operación intensa con paradas frecuentes y topografía exigente. La flota a GNV requiere overhaul al alcanzar los 500.000 km.",
+        "Justificacion": "Se cuenta con una flota de 31 buses articulados y 59 padrones. Es apremiante el cambio tecnológico por obsolescencia ambiental y mecánica.",
+        "Evaluacion": [
+            {
+                "Factor Evaluado": "Integración de software / Datos",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Telemetría ECM / OBD-II en buses GNV; BMS en eléctricos."
+            },
+            {
+                "Factor Evaluado": "Ergonomía y mantenibilidad",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Mantenimiento facilitado por homologación de repuestos."
+            },
+            {
+                "Factor Evaluado": "Automatización",
+                "Puntaje": "1 / 5",
+                "Justificación Técnica / Contexto": "Operación 100% manual sujeta a congestión vial."
+            },
+            {
+                "Factor Evaluado": "Independencia del hombre",
+                "Puntaje": "1 / 5",
+                "Justificación Técnica / Contexto": "Dependiente totalmente del operador del bus."
+            },
+            {
+                "Factor Evaluado": "Optimización de espacio",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Ocupación de carriles exclusivos BRT y patios Belén."
+            },
+            {
+                "Factor Evaluado": "Capacidad y Eficiencia",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Alta capacidad en vehículos articulados y padrones."
+            },
+            {
+                "Factor Evaluado": "Cuidados medioambientales",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Transición de Euro V / GNV hacia cero emisiones totales (5/5 en eléctricos)."
+            },
+            {
+                "Factor Evaluado": "Cumplimiento normativo",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Certificaciones de calidad ISO 9001:2015."
+            }
+        ]
+    },
+    "Metrocables (Líneas K, J, L, H, M, P)": {
+        "Generación": "3ª Gen Inicial (28/40)",
+        "TCT": "1 a 3 años",
+        "Prioridad": "PRIORIDAD 2",
+        "Estrategia": "Modernización de sistemas de control y sensores.",
+        "Contexto": "Alta utilización en laderas urbanas (~65.000 usuarios/día).",
+        "Justificacion": "Necesidad de migrar sistemas antiguos hacia tecnologías automatizadas en pinzas y rodamientos.",
+        "Evaluacion": [
+            {
+                "Factor Evaluado": "Integración de software / Datos",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Líneas antiguas requieren actualización."
+            },
+            {
+                "Factor Evaluado": "Ergonomía y mantenibilidad",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Trabajo en altura."
+            },
+            {
+                "Factor Evaluado": "Automatización",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Bucle continuo automatizado."
+            },
+            {
+                "Factor Evaluado": "Independencia del hombre",
+                "Puntaje": "2 / 5",
+                "Justificación Técnica / Contexto": "Requiere personal para embarque."
+            },
+            {
+                "Factor Evaluado": "Optimización de espacio",
+                "Puntaje": "5 / 5",
+                "Justificación Técnica / Contexto": "Excelente huella urbana."
+            },
+            {
+                "Factor Evaluado": "Capacidad y Eficiencia",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Flujo continuo."
+            },
+            {
+                "Factor Evaluado": "Cuidados medioambientales",
+                "Puntaje": "5 / 5",
+                "Justificación Técnica / Contexto": "Operación eléctrica."
+            },
+            {
+                "Factor Evaluado": "Cumplimiento normativo",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Regulación internacional de cables."
+            }
+        ]
+    },
+    "Trenes (Líneas A, B)": {
+        "Generación": "3ª Gen Madura (29/40)",
+        "TCT": "3 a 5 años",
+        "Prioridad": "PRIORIDAD 4",
+        "Estrategia": "Actualización de señalización a CBTC.",
+        "Contexto": "Núcleo del transporte con más de 310 millones de viajes en la red.",
+        "Justificacion": "Flotas con más de 30 años requieren modernización de tracción y control por aumento de modos de falla.",
+        "Evaluacion": [
+            {
+                "Factor Evaluado": "Integración de software / Datos",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Monitoreo RCM activo."
+            },
+            {
+                "Factor Evaluado": "Ergonomía y mantenibilidad",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Talleres en Bello."
+            },
+            {
+                "Factor Evaluado": "Automatización",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Operación semi-automatizada (GoA2)."
+            },
+            {
+                "Factor Evaluado": "Independencia del hombre",
+                "Puntaje": "2 / 5",
+                "Justificación Técnica / Contexto": "Dependencia del conductor."
+            },
+            {
+                "Factor Evaluado": "Optimización de espacio",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Infraestructura ferroviaria."
+            },
+            {
+                "Factor Evaluado": "Capacidad y Eficiencia",
+                "Puntaje": "5 / 5",
+                "Justificación Técnica / Contexto": "Máxima capacidad."
+            },
+            {
+                "Factor Evaluado": "Cuidados medioambientales",
+                "Puntaje": "5 / 5",
+                "Justificación Técnica / Contexto": "100% eléctrico."
+            },
+            {
+                "Factor Evaluado": "Cumplimiento normativo",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Alto cumplimiento normativo."
+            }
+        ]
+    },
+    "Tranvía de Ayacucho": {
+        "Generación": "3ª Gen Madura (28/40)",
+        "TCT": "4 a 7 años",
+        "Prioridad": "PRIORIDAD 3",
+        "Estrategia": "Homologación local de repuestos e ingeniería inversa.",
+        "Contexto": "Alta efectividad con 9,8 millones de viajes esperados.",
+        "Justificacion": "Tecnología propietaria (Translohr). Riesgo principal por obsolescencia de proveedor único.",
+        "Evaluacion": [
+            {
+                "Factor Evaluado": "Integración de software / Datos",
+                "Puntaje": "3 / 5",
+                "Justificación Técnica / Contexto": "Diagnóstico a bordo."
+            },
+            {
+                "Factor Evaluado": "Ergonomía y mantenibilidad",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Accesibilidad nivelada."
+            },
+            {
+                "Factor Evaluado": "Automatización",
+                "Puntaje": "2 / 5",
+                "Justificación Técnica / Contexto": "Conducción manual en vía urbana."
+            },
+            {
+                "Factor Evaluado": "Independencia del hombre",
+                "Puntaje": "2 / 5",
+                "Justificación Técnica / Contexto": "Dependiente del control de tráfico."
+            },
+            {
+                "Factor Evaluado": "Optimización de espacio",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Plataforma compacta."
+            },
+            {
+                "Factor Evaluado": "Capacidad y Eficiencia",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "3.807 pax/h/sentido."
+            },
+            {
+                "Factor Evaluado": "Cuidados medioambientales",
+                "Puntaje": "5 / 5",
+                "Justificación Técnica / Contexto": "Cero emisiones directas."
+            },
+            {
+                "Factor Evaluado": "Cumplimiento normativo",
+                "Puntaje": "4 / 5",
+                "Justificación Técnica / Contexto": "Regulado por el código de tránsito."
+            }
+        ]
+    }
+}

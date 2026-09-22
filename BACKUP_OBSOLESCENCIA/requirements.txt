@@ -4,5 +4,3 @@ numpy
 Pillow
 reportlab
 requests
-
-XlsxWriter>=3.2.0

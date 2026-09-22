@@ -152,15 +152,14 @@ st.markdown(
 
 st.markdown(
     """
-    <div class="hero-equipo">
-        <div class="eyebrow">METRO_RCM</div>
-        <div class="title">Equipo RCM</div>
-        <div class="subtitle">
-            Estructura organizacional, perfiles profesionales y diagnóstico
-            de competencias del equipo RCM.
-        </div>
-    </div>
-    """,
+<div class="hero-equipo">
+<div class="eyebrow">METRO_RCM</div>
+<div class="title">Equipo RCM</div>
+<div class="subtitle">
+Estructura organizacional, perfiles profesionales y diagnóstico
+de competencias del equipo RCM.
+</div>
+</div>""",
     unsafe_allow_html=True,
 )
 

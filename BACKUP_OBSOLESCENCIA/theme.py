@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Tema visual compartido de METRO_RCM.
 
-El mÃ³dulo evita dependencias externas para los elementos visuales:
-las imÃ¡genes institucionales usadas por el tema se empaquetan dentro
+El módulo evita dependencias externas para los elementos visuales:
+las imágenes institucionales usadas por el tema se empaquetan dentro
 del proyecto y se incrustan como data URI en el CSS.
 """
 
@@ -102,7 +102,7 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
         color: #fff !important;
     }
 
-    /* Ocultamos la navegaciÃ³n automÃ¡tica y usamos navegaciÃ³n institucional propia. */
+    /* Ocultamos la navegación automática y usamos navegación institucional propia. */
     section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
         display: none;
     }
@@ -172,7 +172,7 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
         color: rgba(255,255,255,.73) !important;
     }
 
-    /* ---------- TipografÃ­a ---------- */
+    /* ---------- Tipografía ---------- */
     h1, h2, h3, h4 {
         color: var(--udea-text);
         font-weight: 780;
@@ -277,12 +277,12 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
         gap: .7rem;
     }
 
-    /* SeparaciÃ³n uniforme de los bloques verticales */
+    /* Separación uniforme de los bloques verticales */
     [data-testid="stVerticalBlock"] > [data-testid="element-container"] {
         margin-bottom: .18rem;
     }
 
-    /* ---------- MÃ©tricas ---------- */
+    /* ---------- Métricas ---------- */
     div[data-testid="stMetric"] {
         min-height: 106px;
         background: #fff;
@@ -372,12 +372,12 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
         background: rgba(255,255,255,.9);
     }
 
-    /* ---------- ImÃ¡genes ---------- */
+    /* ---------- Imágenes ---------- */
     img {
         border-radius: 12px;
     }
 
-    /* ---------- Portada: hero del diseÃ±o de referencia ---------- */
+    /* ---------- Portada: hero del diseño de referencia ---------- */
     .st-key-hero_portada {
         min-height: 355px;
         display: flex;
@@ -501,7 +501,7 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
 <img src="%s" alt="Universidad de Antioquia">
 <div class="udea-sidebar-title">METRO_RCM</div>
 <div class="udea-sidebar-subtitle">
-GestiÃ³n de Activos Â· Confiabilidad Â· RCM
+Gestión de Activos · Confiabilidad · RCM
 </div>
 </div>
 """ % brand_src,
@@ -509,55 +509,36 @@ GestiÃ³n de Activos Â· Confiabilidad Â· RCM
         )
         st.sidebar.divider()
         st.sidebar.markdown(
-            '<div class="metro-sidebar-nav-label">NAVEGACIÃ“N DEL PROYECTO</div>',
+            '<div class="metro-sidebar-nav-label">NAVEGACIÓN DEL PROYECTO</div>',
             unsafe_allow_html=True,
         )
 
-        # Los iconos se incluyen dentro de la etiqueta y no en el parÃ¡metro
+        # Los iconos se incluyen dentro de la etiqueta y no en el parámetro
         # `icon=` de st.sidebar.page_link. Esto evita incompatibilidades entre
-        # versiones de Streamlit con caracteres que no son emojis vÃ¡lidos.
+        # versiones de Streamlit con caracteres que no son emojis válidos.
         nav_items = [
-            ("app.py", "Inicio", "âŒ‚"),
-            ("pages/01_Contexto_del_Negocio.py", "Contexto del Negocio", "â–¦"),
-            ("pages/02_Contexto_Operacional.py", "Contexto Operacional", "â–£"),
-            ("pages/03_Activos.py", "GestiÃ³n de Activos", "â—‡"),
-            ("pages/04_Mantenimiento.py", "Mantenimiento", "âš™"),
-            ("pages/05_Indicadores.py", "Indicadores", "â–¥"),
-            ("pages/07_Criticidad_Integrado.py", "Matriz de Criticidad", "â—ˆ"),
-            ("pages/07_RCM.py", "RCM", "â†»"),
-            ("pages/08_Equipo_RCM_Integrado.py", "Equipo RCM Integrado", "â™™"),
-            ("pages/09_Monitoreo_Ambiental.py", "Monitoreo Ambiental", "âŒ"),
-        ("pages/10_Obsolescencia_Activos.py", "Obsolescencia de Activos", "♻️"),
+            ("app.py", "Inicio", "⌂"),
+            ("pages/01_Contexto_del_Negocio.py", "Contexto del Negocio", "▦"),
+            ("pages/02_Contexto_Operacional.py", "Contexto Operacional", "▣"),
+            ("pages/03_Activos.py", "Gestión de Activos", "◇"),
+            ("pages/04_Mantenimiento.py", "Mantenimiento", "⚙"),
+            ("pages/05_Indicadores.py", "Indicadores", "▥"),
+            ("pages/07_Criticidad_Integrado.py", "Matriz de Criticidad", "◈"),
+            ("pages/07_RCM.py", "RCM", "↻"),
+            ("pages/08_Equipo_RCM_Integrado.py", "Equipo RCM Integrado", "♙"),
+            ("pages/09_Monitoreo_Ambiental.py", "Monitoreo Ambiental", "⌁"),
         ]
 
-        iconos_nav = {
-            "app.py": "\U0001F3E0",
-            "pages/01_Contexto_del_Negocio.py": "\U0001F3E2",
-            "pages/02_Contexto_Operacional.py": "\U0001F687",
-            "pages/03_Activos.py": "\U0001F4E6",
-            "pages/04_Mantenimiento.py": "\U0001F527",
-            "pages/05_Indicadores.py": "\U0001F4CA",
-            "pages/07_Criticidad_Integrado.py": "\U0001F3AF",
-            "pages/07_RCM.py": "\U0001F504",
-            "pages/08_Equipo_RCM_Integrado.py": "\U0001F465",
-            "pages/09_Monitoreo_Ambiental.py": "\U0001F4E1",
-            "pages/10_Obsolescencia_Activos.py": "\u267B\uFE0F",
-        }
-
         for ruta, etiqueta, icono in nav_items:
-            # Solo crear enlaces a páginas existentes.
+            # Solo crear enlaces a páginas que realmente existen en el paquete.
             if ruta == "app.py" or (BASE_DIR / ruta).exists():
-                icono_seguro = iconos_nav.get(ruta, "\u2022")
-                st.sidebar.page_link(
-                    ruta,
-                    label=f"{icono_seguro}  {etiqueta}"
-                )
+                st.sidebar.page_link(ruta, label=f"{icono}  {etiqueta}")
 
         st.sidebar.markdown(
             '''
 <div style="margin:16px 10px 0;padding-top:13px;border-top:1px solid rgba(255,255,255,.16);text-align:center;">
-<div style="color:#4BD18E;font-size:.76rem;font-weight:800;">RCM Â· Metro de MedellÃ­n</div>
-<div style="color:rgba(255,255,255,.72);font-size:.70rem;margin-top:3px;">GestiÃ³n de la Confiabilidad para la Sostenibilidad</div>
+<div style="color:#4BD18E;font-size:.76rem;font-weight:800;">RCM · Metro de Medellín</div>
+<div style="color:rgba(255,255,255,.72);font-size:.70rem;margin-top:3px;">Gestión de la Confiabilidad para la Sostenibilidad</div>
 </div>
 ''',
             unsafe_allow_html=True,
@@ -565,7 +546,7 @@ GestiÃ³n de Activos Â· Confiabilidad Â· RCM
 
 
 def encabezado_pagina(titulo: str, subtitulo: str = "", icono: str = "") -> None:
-    """Encabezado reutilizable para pÃ¡ginas internas."""
+    """Encabezado reutilizable para páginas internas."""
     etiqueta = f"{icono} {titulo}".strip()
     st.markdown(
         """
@@ -580,4 +561,3 @@ def encabezado_pagina(titulo: str, subtitulo: str = "", icono: str = "") -> None
         % (etiqueta, subtitulo),
         unsafe_allow_html=True,
     )
-

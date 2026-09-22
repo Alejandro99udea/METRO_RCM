@@ -524,68 +524,49 @@ cards = [
 ]
 
 # Tres filas de tres tarjetas: ancho, alto y jerarquÃ­a visual uniformes.
-# ============================================================
-# NAVEGACIÓN DEL PROYECTO
-# ============================================================
-
+for inicio in range(0, len(cards), 3):
+    fila = cards[inicio:inicio + 3]
+    cols = st.columns(3, gap="medium")
+    
 ICONOS_PORTADA = {
-    "pages/01_Contexto_del_Negocio.py": "🏢",
-    "pages/02_Contexto_Operacional.py": "🚇",
-    "pages/03_Activos.py": "📦",
-    "pages/04_Mantenimiento.py": "🔧",
-    "pages/05_Indicadores.py": "📊",
-    "pages/07_Criticidad_Integrado.py": "🎯",
-    "pages/07_RCM.py": "🔄",
-    "pages/08_Equipo_RCM_Integrado.py": "👥",
-    "pages/09_Monitoreo_Ambiental.py": "📡",
-    "pages/10_Obsolescencia_Activos.py": "♻️",
+    "pages/01_Contexto_del_Negocio.py": "\U0001F3E2",
+    "pages/02_Contexto_Operacional.py": "\U0001F687",
+    "pages/03_Activos.py": "\U0001F4E6",
+    "pages/04_Mantenimiento.py": "\U0001F527",
+    "pages/05_Indicadores.py": "\U0001F4CA",
+    "pages/07_Criticidad_Integrado.py": "\U0001F3AF",
+    "pages/07_RCM.py": "\U0001F504",
+    "pages/08_Equipo_RCM_Integrado.py": "\U0001F465",
+    "pages/09_Monitoreo_Ambiental.py": "\U0001F4E1",
+    "pages/10_Obsolescencia_Activos.py": "\u267B\uFE0F",
 }
 
-for inicio in range(0, len(cards), 3):
-
-    fila = cards[inicio:inicio + 3]
-
-    cols = st.columns(3, gap="medium")
-
-    for idx, card in enumerate(fila):
-
+for idx, card in enumerate(fila):
         with cols[idx]:
-
             with st.container(border=True):
-
-                icono = ICONOS_PORTADA.get(
-                    card.get("ruta"),
-                    "•",
-                )
-
                 st.markdown(
                     '<div class="metro-nav-card">'
-                    f'<div class="icon">{icono}</div>'
+                    f'<div class="icon">{ICONOS_PORTADA.get(card.get("ruta"), "\u2022")}</div>'
                     f'<h3>{card["titulo"]}</h3>'
                     f'<p>{card["descripcion"]}</p>'
                     '</div>',
                     unsafe_allow_html=True,
                 )
-
                 if st.button(
-                    "Abrir módulo →",
+                    "Abrir mÃ³dulo â†’",
                     key=card["button"],
                     width="stretch",
                 ):
                     st.switch_page(card["ruta"])
 
-                if st.button(
-                    "Generar informe",
-                    key=card["report_key"],
-                    width="stretch",
-                ):
-                    generar_informe(
-                        card["report_title"],
-                        card["report_subtitle"],
-                        card["sections"],
-                        card["report_file"],
+                if card.get("report_key"):
+                    mostrar_boton_informe(
+                        key=card["report_key"],
+                        titulo=card["report_title"],
+                        subtitulo=card["report_subtitle"],
+                        nombre_archivo=card["report_file"],
+                        secciones=card["sections"],
                     )
-
 
 st.markdown(
     """
