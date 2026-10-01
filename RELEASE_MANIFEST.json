@@ -1,0 +1,34 @@
+{
+  "release": "METRO_RCM_EJECUTIVO_2026_FINAL_v5",
+  "base": "METRO_RCM_ENCUESTA_CENTRAL_PONDERACION_MATRIZ_NUEVA",
+  "modules": 10,
+  "design": "Sistema visual corporativo UdeA/METRO_RCM, navegación numérica, encuesta centralizada rediseñada, matriz de criticidad integrada y controles consistentes.",
+  "integrity": "Matriz de criticidad, ponderación centralizada y trazabilidad de votos conservadas; correspondencia de los cinco criterios verificada.",
+  "qa_status": "PASS",
+  "qa_scope": [
+    "Python AST",
+    "JSON data",
+    "navigation routes",
+    "critical assets",
+    "PDF generation",
+    "Google Apps Script syntax",
+    "criticidad matrix bridge",
+    "encuesta HTML sin dependencias externas",
+    "JavaScript embebido de encuesta y matriz",
+    "correspondencia de criterios encuesta → matriz",
+    "consistencia visual sin emojis decorativos"
+  ],
+  "visual_layer": "Sistema visual ejecutivo UdeA/METRO_RCM conservado y validado; navegación lateral, portada, tarjetas, métricas, tablas, formularios y páginas internas homogéneas.",
+  "compatibility": "Streamlit >=1.50,<2.0",
+  "fixes": [
+    "Fallback de fotos/CV del Equipo RCM hacia assets heredados",
+    "README de navegación corregido",
+    "archivo vacío assets/tra eliminado",
+    "smoke_test.py incluido",
+    "Encuesta de ponderación rediseñada conservando registro central, historial, promedio, actualización y exportación",
+    "Corrección del orden de criterios entre encuesta y matriz",
+    "Eliminación de emojis decorativos de la interfaz ejecutiva",
+    "Matriz desacoplada de fuentes web externas",
+    "Endpoint central de ponderación alineado con el despliegue real proporcionado por el usuario; se eliminó la referencia al endpoint antiguo."
+  ]
+}
