@@ -247,18 +247,6 @@ else:
 
 prefixes = workbook["tag_prefixes"]
 prefixes_text = ", ".join(prefixes) if prefixes else "Sin prefijos TAG diligenciados"
-if "TRV" not in prefixes:
-    st.warning(
-        f"El libro activo contiene TAG con prefijo {prefixes_text}, pero no TRV. "
-        "Esta información se presenta como está en el archivo y no representa el "
-        "análisis del Tranvía. No cruces ni renombres registros sin equivalencia documental."
-    )
-elif len(prefixes) > 1:
-    st.warning(
-        f"Se encontraron varios prefijos TAG ({prefixes_text}). Revisa cada sistema "
-        "por separado y conserva la trazabilidad del archivo fuente."
-    )
-
 scope_ids = set(filtered_ids)
 analysis_scope = analysis.loc[
     analysis[analysis_function_id_col].astype(str).isin(scope_ids)
