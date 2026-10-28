@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from textwrap import dedent
+
 from utils.theme import aplicar_tema_udea
 import streamlit as st
 import pandas as pd
@@ -237,20 +239,17 @@ st.markdown(
 # ============================================================
 
 st.markdown(
-    """
-    <div class="hero">
-
-        <div class="hero-title">
-             CONTEXTO DEL NEGOCIO
+    dedent(
+        """
+        <div class="hero">
+            <div class="hero-title">Contexto del negocio</div>
+            <div class="hero-subtitle">
+                Metro de Medellín · Contexto corporativo, financiero,
+                estratégico y de gestión de activos para el análisis RCM
+            </div>
         </div>
-
-        <div class="hero-subtitle">
-            Metro de Medellín · Contexto corporativo, financiero,
-            estratégico y de gestión de activos para el análisis RCM
-        </div>
-
-    </div>
-    """,
+        """
+    ),
     unsafe_allow_html=True,
 )
 

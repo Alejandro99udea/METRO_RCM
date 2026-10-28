@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from textwrap import dedent
+
 from utils.theme import aplicar_tema_udea
 import streamlit as st
 
@@ -170,16 +172,12 @@ st.markdown(
     <style>
 
     .hero {
-        background: linear-gradient(
-            135deg,
-            #ffffff 0%,
-            #f4f6f8 100%
-        );
-        border: 1px solid #dfe3e8;
+        background: linear-gradient(135deg, #004F3D 0%, #006B54 100%);
+        border: 1px solid rgba(0,107,84,.25);
         border-radius: 18px;
-        padding: 26px 32px;
+        padding: 28px 32px;
         margin-bottom: 24px;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        box-shadow: 0 5px 18px rgba(0,0,0,0.08);
     }
 
     .hero-title {
@@ -191,8 +189,10 @@ st.markdown(
 
     .hero-subtitle {
         font-size: 1rem;
-        color: rgba(255,255,255,.82);
-        margin-top: 6px;
+        color: rgba(255,255,255,.88);
+        margin-top: 8px;
+        line-height: 1.5;
+        max-width: 78ch;
     }
 
     .system-card {
@@ -274,36 +274,31 @@ def mostrar_linea_pendiente(nombre_linea, modo):
     st.divider()
 
     st.markdown(
-        """
-        <div class="pending-box">
-
-        <strong>Información pendiente de consolidación</strong>
-
-        <br><br>
-
-        Para desarrollar esta línea como módulo RCM se requiere
-        documentación operacional, técnica y de mantenimiento
-        específica del activo.
-
-        </div>
-        """,
+        dedent(
+            """
+            <div class="pending-box">
+                <strong>Información pendiente de consolidación</strong>
+                <br><br>
+                Para desarrollar esta línea como módulo RCM se requiere
+                documentación operacional, técnica y de mantenimiento
+                específica del activo.
+            </div>
+            """
+        ),
         unsafe_allow_html=True,
     )
 
 
 def tarjeta_sistema(icono, nombre, descripcion):
     st.markdown(
-        f"""
-        <div class="system-card">
-            <div class="system-card-title">
-                {icono} {nombre}
+        dedent(
+            f"""
+            <div class="system-card">
+                <div class="system-card-title">{icono} {nombre}</div>
+                <div class="system-card-text">{descripcion}</div>
             </div>
-
-            <div class="system-card-text">
-                {descripcion}
-            </div>
-        </div>
-        """,
+            """
+        ),
         unsafe_allow_html=True,
     )
 
@@ -313,18 +308,17 @@ def tarjeta_sistema(icono, nombre, descripcion):
 # ============================================================
 
 st.markdown(
-    """
-    <div class="hero">
-        <div class="hero-title">
-             CONTEXTO OPERACIONAL
+    dedent(
+        """
+        <div class="hero">
+            <div class="hero-title">Contexto operacional</div>
+            <div class="hero-subtitle">
+                Sistema integrado de consulta operacional y gestión
+                de activos — Metro de Medellín
+            </div>
         </div>
-
-        <div class="hero-subtitle">
-            Sistema integrado de consulta operacional y gestión
-            de activos — Metro de Medellín
-        </div>
-    </div>
-    """,
+        """
+    ),
     unsafe_allow_html=True,
 )
 

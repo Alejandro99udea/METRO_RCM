@@ -269,6 +269,19 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
     div[data-testid=\"stMetricValue\"] {{
         color: var(--metro-green-800);
         font-weight: 820;
+        font-size: clamp(1.05rem, 1.45vw, 1.5rem) !important;
+        line-height: 1.14 !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        overflow-wrap: anywhere !important;
+    }}
+
+    div[data-testid=\"stMetricValue\"] * {{
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        overflow-wrap: anywhere !important;
     }}
 
     /* ============================ BUTTONS ============================ */
@@ -297,7 +310,22 @@ def aplicar_tema_udea(mostrar_marca_sidebar: bool = True, marca_agua: bool = Tru
         color: #fff !important;
     }}
 
+    .stButton > button[data-testid=\"stBaseButton-primary\"],
+    [data-testid=\"stBaseButton-primary\"] {{
+        background: var(--metro-green-800) !important;
+        border-color: var(--metro-green-800) !important;
+        color: #fff !important;
+    }}
+
+    [data-testid=\"stBaseButton-primary\"] * {{ color: #fff !important; }}
+
     .stButton > button[kind=\"primary\"]:hover {{
+        background: var(--metro-green-900) !important;
+        border-color: var(--metro-green-900) !important;
+        color: #fff !important;
+    }}
+
+    [data-testid=\"stBaseButton-primary\"]:hover {{
         background: var(--metro-green-900) !important;
         border-color: var(--metro-green-900) !important;
         color: #fff !important;
