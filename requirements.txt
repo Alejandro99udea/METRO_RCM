@@ -5,3 +5,5 @@ Pillow
 reportlab
 requests
 XlsxWriter>=3.2.0
+
+openpyxl>=3.1.5,<4.0
