@@ -381,7 +381,7 @@ for inicio in range(0, len(cards), 3):
                     "Abrir módulo →",
                     key=card["button"],
                     width="stretch",
-                    type="primary",
+                    type="secondary",
                 ):
                     st.switch_page(card["ruta"])
 
